@@ -59,7 +59,7 @@
                 <el-button @click="handleRowVerify(scope.row.id)" type="text" size="small">审核</el-button>
               </template>
             </el-table-column>
-          </el-table>          
+          </el-table>
         </keep-alive>
         <div class="task-list-page">
           <el-pagination

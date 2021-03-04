@@ -17,3 +17,15 @@ export function postTaskVerifyData(data) {
     data: data
   })
 }
+
+//获取任务详情
+export function getTaskDetail(data) {
+  return request({
+    // url: 'getTasksList',
+    // method: 'post',
+    // data
+    url: 'getTasksDetail',
+    method: 'get',
+    params: data
+  })
+}

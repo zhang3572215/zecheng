@@ -1,79 +1,65 @@
 <template>
     <div class="task-detail">
-        <el-table v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
-      <el-table-column align="center" label="ID" width="80">
-        <template slot-scope="{row}">
-          <span>{{ row.id }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column width="180px" align="center" label="Date">
-        <template slot-scope="{row}">
-          <span>{{ row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column width="120px" align="center" label="Author">
-        <template slot-scope="{row}">
-          <span>{{ row.author }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column width="100px" label="Importance">
-        <template slot-scope="{row}">
-          <svg-icon v-for="n in + row.importance" :key="n" icon-class="star" class="meta-item__icon" />
-        </template>
-      </el-table-column>
-
-      <el-table-column class-name="status-col" label="Status" width="110">
-        <template slot-scope="{row}">
-          <el-tag :type="row.status | statusFilter">
-            {{ row.status }}
-          </el-tag>
-        </template>
-      </el-table-column>
-
-      <el-table-column min-width="300px" label="Title">
-        <template slot-scope="{row}">
-          <template v-if="row.edit">
-            <el-input v-model="row.title" class="edit-input" size="small" />
-            <el-button
-              class="cancel-btn"
-              size="small"
-              icon="el-icon-refresh"
-              type="warning"
-              @click="cancelEdit(row)"
-            >
-              cancel
-            </el-button>
-          </template>
-          <span v-else>{{ row.title }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="Actions" width="120">
-        <template slot-scope="{row}">
-          <el-button
-            v-if="row.edit"
-            type="success"
-            size="small"
-            icon="el-icon-circle-check-outline"
-            @click="confirmEdit(row)"
-          >
-            Ok
-          </el-button>
-          <el-button
-            v-else
-            type="primary"
-            size="small"
-            icon="el-icon-edit"
-            @click="row.edit=!row.edit"
-          >
-            Edit
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+		<div class="task-items">
+			<h4>信息收集</h4>
+			<el-table :data="infos" border fit highlight-current-row style="width: 100%" :header-row-style="{color:'#333333'}" current-row-key='id'>
+				<!-- <el-table-column prop="id" label="id" width="180" /> -->
+				<!-- <el-table-column v-for="(iv,ik,ids) in tableData[0]" :key="ids" :label="formThead[ids]" :prop="ik" min-width="80" align="center">
+				</el-table-column> -->
+				<el-table-column min-width="20" label="收集类型" align="center">
+					<template slot-scope="scope">
+						{{scope.row.code == '1'?'收集截图':'手机信息'}}
+					</template>
+				</el-table-column>
+				<el-table-column prop="id" min-width="60" label="id" align="center"></el-table-column>
+				<el-table-column prop="type" min-width="20" label="类型" align="center"></el-table-column>
+				<el-table-column min-width="40" label="图片地址" align="center">
+					<template slot-scope="scope">
+						<el-image v-if="scope.row.type == 'pic'"
+							style="width: 96px; height: 96px"
+							:src="'http://api.zechengnet.cn'+scope.row.url"
+							fit="scale-down"/>
+					</template>
+				</el-table-column>
+				<el-table-column prop="text" min-width="80" label="描述" align="center"></el-table-column>
+				<!-- 添加条目请追加到此处上方 -->
+				<!-- <el-table-column min-width="40" label="操作" align="center" fixed="right">
+				<template slot-scope="scope">
+					<el-button @click="handleRowClick(scope.row.id)" type="text" size="small">查看</el-button>
+					<el-button @click="handleRowVerify(scope.row.id)" type="text" size="small">审核</el-button>
+				</template>
+				</el-table-column> -->
+			</el-table>          
+		</div>
+		<div  class="task-items">
+			<h4>任务步骤</h4>
+			<el-table :data="items" border fit highlight-current-row style="width: 100%" :header-row-style="{color:'#333333'}" current-row-key='id'>
+				<!-- <el-table-column prop="id" label="id" width="180" /> -->
+				<!-- <el-table-column v-for="(iv,ik,ids) in tableData[0]" :key="ids" :label="formThead[ids]" :prop="ik" min-width="80" align="center">
+				</el-table-column> -->
+				
+				<el-table-column prop="id" min-width="20" label="id" align="center"></el-table-column>
+				<el-table-column min-width="20" label="说明类型" align="center">
+					<template slot-scope="scope">
+						{{scope.row.type | itemTypeFilter}}
+					</template>
+				</el-table-column>
+				<el-table-column min-width="40" label="图片地址" align="center">
+					<template slot-scope="scope">
+						<el-image v-if="scope.row.type == 'pic'"
+							style="width: 96px; height: 96px"
+							:src="'http://api.zechengnet.cn'+scope.row.url"
+							fit="scale-down"/>
+					</template>
+				</el-table-column>
+				<el-table-column prop="text" min-width="80" label="描述" align="center"></el-table-column>
+				<el-table-column min-width="80" label="网址描述" align="center">
+					<template slot-scope="scope" v-if="scope.row.type=='url'">
+						{{scope.row.url}}
+					</template>
+				</el-table-column>
+			</el-table>
+		</div>
     </div>
 </template>
 
@@ -93,33 +79,62 @@
         },
         computed: {
             ...mapState('taskDetail',[
+				'token',
                 'infos',
                 'items'
             ])
         },
         filters: {
-            statusFilter(status) {
-            const statusMap = {
-                published: 'success',
-                draft: 'info',
-                deleted: 'danger'
-            }
-            return statusMap[status]
+            itemTypeFilter(type) {
+				if (!type) return '未知类型'
+				switch (type) {
+					case 'pic':
+						return '图文说明'
+						break;
+					case 'url':
+						return '网址说明'
+						break;
+					case 'text':
+						return '文字说明'
+						break;
+					default:
+						return '未知类型'
+						break;
+				}
             }
         },
         mounted () {
             let that = this
             if (that.$route.query.id) {
-                that.id = that.$route.query.id
+				that.id = that.$route.query.id
+				that.getTaskDetailBy({
+					token: that.token,
+					id: that.id
+				})
             }else {
                 that.$router.back
             }
-        },
+		},
+		methods:{
+			...mapActions('taskDetail',[
+				'getTaskDetailBy'
+			])
+		}
     }
 </script>
 
 <style scoped>
     .task-detail {
-        padding: 20px 15px;
+        padding: 30px 60px;
+		background-color: #f5f5f5;
     }
+	.task-items {
+		margin-top: 30px;
+		padding: 10px 30px;
+		background-color: #ffffff;
+		border-radius: 12px;
+	}
+	.task-items h4 {
+		margin: 10px 0 20px;
+	}
 </style>
