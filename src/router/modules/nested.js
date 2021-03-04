@@ -10,7 +10,7 @@ const nestedRouter = {
   meta: {
     title: '任务列表',
     icon: 'nested'
-  },
+  }
   // children: [
   //   {
   //     path: 'menu1',

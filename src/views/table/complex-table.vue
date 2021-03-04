@@ -170,7 +170,7 @@ export default {
   components: { Pagination },
   directives: { waves },
   filters: {
-    statusFilter(status) {
+    statusFilter (status) {
       const statusMap = {
         published: 'success',
         draft: 'info',
@@ -178,11 +178,11 @@ export default {
       }
       return statusMap[status]
     },
-    typeFilter(type) {
+    typeFilter (type) {
       return calendarTypeKeyValue[type]
     }
   },
-  data() {
+  data () {
     return {
       tableKey: 0,
       list: null,
@@ -226,11 +226,11 @@ export default {
       downloadLoading: false
     }
   },
-  created() {
+  created () {
     this.getList()
   },
   methods: {
-    getList() {
+    getList () {
       this.listLoading = true
       fetchList(this.listQuery).then(response => {
         this.list = response.data.items
@@ -242,24 +242,24 @@ export default {
         }, 1.5 * 1000)
       })
     },
-    handleFilter() {
+    handleFilter () {
       this.listQuery.page = 1
       this.getList()
     },
-    handleModifyStatus(row, status) {
+    handleModifyStatus (row, status) {
       this.$message({
         message: '操作Success',
         type: 'success'
       })
       row.status = status
     },
-    sortChange(data) {
+    sortChange (data) {
       const { prop, order } = data
       if (prop === 'id') {
         this.sortByID(order)
       }
     },
-    sortByID(order) {
+    sortByID (order) {
       if (order === 'ascending') {
         this.listQuery.sort = '+id'
       } else {
@@ -267,7 +267,7 @@ export default {
       }
       this.handleFilter()
     },
-    resetTemp() {
+    resetTemp () {
       this.temp = {
         id: undefined,
         importance: 1,
@@ -278,7 +278,7 @@ export default {
         type: ''
       }
     },
-    handleCreate() {
+    handleCreate () {
       this.resetTemp()
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
@@ -286,7 +286,7 @@ export default {
         this.$refs['dataForm'].clearValidate()
       })
     },
-    createData() {
+    createData () {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
@@ -304,7 +304,7 @@ export default {
         }
       })
     },
-    handleUpdate(row) {
+    handleUpdate (row) {
       this.temp = Object.assign({}, row) // copy obj
       this.temp.timestamp = new Date(this.temp.timestamp)
       this.dialogStatus = 'update'
@@ -313,7 +313,7 @@ export default {
         this.$refs['dataForm'].clearValidate()
       })
     },
-    updateData() {
+    updateData () {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           const tempData = Object.assign({}, this.temp)
@@ -332,7 +332,7 @@ export default {
         }
       })
     },
-    handleDelete(row, index) {
+    handleDelete (row, index) {
       this.$notify({
         title: 'Success',
         message: 'Delete Successfully',
@@ -341,13 +341,13 @@ export default {
       })
       this.list.splice(index, 1)
     },
-    handleFetchPv(pv) {
+    handleFetchPv (pv) {
       fetchPv(pv).then(response => {
         this.pvData = response.data.pvData
         this.dialogPvVisible = true
       })
     },
-    handleDownload() {
+    handleDownload () {
       this.downloadLoading = true
       import('@/vendor/Export2Excel').then(excel => {
         const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
@@ -361,7 +361,7 @@ export default {
         this.downloadLoading = false
       })
     },
-    formatJson(filterVal) {
+    formatJson (filterVal) {
       return this.list.map(v => filterVal.map(j => {
         if (j === 'timestamp') {
           return parseTime(v[j])
@@ -370,10 +370,18 @@ export default {
         }
       }))
     },
-    getSortClass: function(key) {
+    getSortClass: function (key) {
       const sort = this.listQuery.sort
       return sort === `+${key}` ? 'ascending' : 'descending'
     }
   }
 }
 </script>
+<style scoped>
+  .filter-container > div + div {
+    margin-left: 15px;
+  }
+  .filter-container > button {
+    margin-left: 15px;
+  }
+</style>

@@ -77,9 +77,9 @@ export const constantRoutes = [
     children: [
       {
         path: 'dashboard',
-        component: () => import('@/views/dashboard/index'),
+        component: () => import('@/views/user/list/list'),
         name: 'Dashboard',
-        meta: { title: '首页', icon: 'dashboard', affix: true }
+        meta: { title: '用户列表', icon: 'dashboard', affix: true }
       }
     ]
   },
@@ -212,6 +212,38 @@ export const asyncRoutes = [
       }
     ]
   },
+  {
+    path: 'cashlist',
+    component: Layout,
+    redirect: '/cash/list',
+    name: 'cash',
+    meta: { title: '提现列表', icon: 'table', affix: true },
+    alwaysShow: true,
+    children: [
+      {
+        path: '/cash/list',
+        component: () => import('@/views/cash/list/list'),
+        name: 'Tasklist',
+        meta: { title: '提现列表', icon: 'list', affix: true }
+      }
+    ]
+  },
+  {
+    path: 'rechargelist',
+    component: Layout,
+    redirect: '/recharge/list',
+    name: 'recharge',
+    meta: { title: '充值列表', icon: 'table', affix: true },
+    alwaysShow: true,
+    children: [
+      {
+        path: '/recharge/list',
+        component: () => import('@/views/cash/recharge/list'),
+        name: 'Tasklist',
+        meta: { title: '充值列表', icon: 'list', affix: true }
+      }
+    ]
+  }
   // {
   //   path: '/example',
   //   component: Layout,
@@ -418,7 +450,7 @@ const createRouter = () => new Router({
 const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
-export function resetRouter() {
+export function resetRouter () {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
 }
