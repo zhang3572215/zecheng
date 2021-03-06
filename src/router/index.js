@@ -79,7 +79,7 @@ export const constantRoutes = [
         path: 'dashboard',
         component: () => import('@/views/user/list/list'),
         name: 'Dashboard',
-        meta: { title: '用户列表', icon: 'dashboard', affix: true }
+        meta: { title: '用户列表', icon: 'list', affix: true }
       }
     ]
   },
@@ -88,7 +88,7 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/task/list',
     name: 'task',
-    meta: { title: '任务', icon: 'table', affix: true },
+    meta: { title: '任务', icon: 'list', affix: true },
     alwaysShow: true,
     children: [
       {
@@ -147,10 +147,16 @@ export const constantRoutes = [
     meta: { title: '设置', icon: 'table', affix: true },
     children: [
       {
-        path: 'index',
+        path: '/banner/index',
         component: () => import('@/views/setting/banner/index'),
         name: 'banner',
-        meta: { title: '轮播设置', icon: 'picture-outline', noCache: true }
+        meta: { title: '轮播设置', icon: 'dashboard', noCache: true }
+      },
+      {
+        path: '/activity-report/index',
+        component: () => import('@/views/setting/activity-report/index'),
+        name: 'report',
+        meta: { title: '活动先报', icon: 'documentation', noCache: true }
       }
     ]
   },
