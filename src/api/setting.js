@@ -8,3 +8,29 @@ export function postBannerPic (data) {
     data
   })
 }
+
+// 上传图片(缩略图)
+export function postThumb (data) {
+  return request({
+    url: '/layeditUpload',
+    method: 'post',
+    data
+  })
+}
+
+// 获取活动列表
+export function getActivitiesList (data) {
+  return request({
+    url: '/getActivitiesList',
+    method: 'get',
+    params: data
+  })
+}
+// 新增活动线报
+export function postNewActivity (data) {
+  return request({
+    url: '/insertActivitiesData',
+    method: 'post',
+    data
+  })
+}

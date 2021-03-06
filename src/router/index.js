@@ -148,15 +148,15 @@ export const constantRoutes = [
     children: [
       {
         path: '/banner/index',
-        component: () => import('@/views/setting/banner/index'),
+        component: () => import('@/views/setting/banner/list'),
         name: 'banner',
         meta: { title: '轮播设置', icon: 'dashboard', noCache: true }
       },
       {
         path: '/activity-report/index',
-        component: () => import('@/views/setting/activity-report/index'),
+        component: () => import('@/views/setting/activity-report/list'),
         name: 'report',
-        meta: { title: '活动先报', icon: 'documentation', noCache: true }
+        meta: { title: '活动线报', icon: 'documentation', noCache: true }
       }
     ]
   },
