@@ -5,7 +5,8 @@
             <el-row style="margin: 15px 0;">
                 <el-col :span="2" style="line-height: 36px;">标题搜索：</el-col>
                 <el-col :span="4"><el-input v-model="titleSearch" placeholder="请输入标题搜索" @change="titleChange"></el-input></el-col>
-                <el-col :span="18" style="text-align: right">
+                <el-col :span="4" :offset="1"><el-button type="primary" @click="getActivityList">搜索</el-button></el-col>
+                <el-col :span="13" style="text-align: right">
                     <el-button  type="primary" @click="addVisible=true">新增线报</el-button>
                 </el-col>
             </el-row>
@@ -72,11 +73,15 @@
                             <el-switch v-model="editData.type"></el-switch>
                         </el-form-item>
                         <el-form-item label="缩略图">
-                            <div class="file-upload">
-                                <input type="file" @change="uploadThumb">
-                                <el-image :src="editData.thumb" fit="contain" class="file-image" v-if="editData.thumb"></el-image>
-                                <div class="file-under" v-else>+</div>
-                            </div>
+                            <el-upload
+                                class="avatar-uploader"
+                                action="http://api.zechengnet.cn/layeditUpload"
+                                :show-file-list="false"
+                                :on-success="handleEditSuccess"
+                                :before-upload="beforeAvatarUpload">
+                                <img v-if="editData.thumb" :src="editData.thumb" class="avatar">
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>   
                         </el-form-item>
                         <el-form-item label="内容">
                             <textarea id="richtext" v-model="editData.content"></textarea>
@@ -102,6 +107,7 @@
                             <el-input v-model="newData.description"></el-input>
                         </el-form-item>
                         <el-form-item label="缩略图">
+                            <el-input v-model="newData.thumb" type="text" styl="display: hidden;"></el-input>
                             <el-upload
                                 class="avatar-uploader"
                                 action="http://api.zechengnet.cn/layeditUpload"
@@ -239,6 +245,35 @@ import { getActivitiesList, postThumb, postNewActivity } from '@/api/setting'
                 }
                 return isJPG && isLt3M;
             },
+            handleEditSuccess(res, file) {
+                this.editData.thumb = res.data.src;
+            },
+            handleEdit(){
+                this.editData.content = layedit.getContent(this.editIndex)
+                let flag = 0
+                for (let key in this.editData) {
+                    if (this.editData[key] =='') {
+                        this.$message.error('缺少内容：'+this.dataMapping[key])
+                        flag = 1
+                        return
+                    }
+                }
+                if (flag < 1) {
+                    const formData = new FormData();
+                    for (const key in this.newData) {
+                        formData.append(key, this.newData[key]);
+                    }
+                    postNewActivity(this.newData).then(res => {
+                        console.log(res)
+                        this.$message("提交成功")
+                        this.addVisible =false
+                        this.getActivityList()
+                    }).catch(err =>{
+                        console.log(err)
+                        this.addVisible =false
+                    })
+                }                
+            },
             handleNew(){
                 this.newData.content = layedit.getContent(this.newIndex)
                 let flag = 0
@@ -254,6 +289,7 @@ import { getActivitiesList, postThumb, postNewActivity } from '@/api/setting'
                         console.log(res)
                         this.$message("提交成功")
                         this.addVisible =false
+                        this.getActivityList()
                     }).catch(err =>{
                         console.log(err)
                         this.addVisible =false
