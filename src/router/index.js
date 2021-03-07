@@ -163,14 +163,15 @@ export const constantRoutes = [
   {
     path: '/profile',
     component: Layout,
-    redirect: '/profile/index',
+    redirect: '/profile',
     hidden: true,
+    meta: { title: '修改密码'},
     children: [
       {
-        path: 'index',
-        component: () => import('@/views/profile/index'),
-        name: 'Profile',
-        meta: { title: '个人设置', icon: 'user', noCache: true }
+        path: '/profile/index',
+        component: () => import('@/views/user/profile/chgpwd'),
+        name: 'changepwd',
+        meta: { title: '修改密码', icon: 'user', noCache: true }
       }
     ]
   }

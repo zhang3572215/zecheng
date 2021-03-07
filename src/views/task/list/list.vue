@@ -57,6 +57,7 @@
               <template slot-scope="scope">
                 <el-button @click="handleRowClick(scope.row.id)" type="text" size="small">查看</el-button>
                 <el-button @click="handleRowVerify(scope.row.id)" type="text" size="small">审核</el-button>
+                <el-button @click="handleSetOption(scope.row)" type="text" size="small">设置</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -74,6 +75,36 @@
         </div>
       </el-tab-pane>
     </el-tabs>
+    <el-dialog
+        title="设置"
+        top="10vh"
+        :visible.sync="setVisible"
+        :close-on-click-modal="false"
+        width="30%">
+        <span>
+            <el-form label-width="120px">
+                <el-form-item label="id">
+                    <el-input v-model="taskDataSet.id" disabled></el-input>
+                </el-form-item>
+                <el-form-item label="是否vip可见">
+                    <el-switch v-model="taskDataSet.is_vip"></el-switch>
+                </el-form-item>
+                <el-form-item label="是否头部展示">
+                    <el-switch v-model="taskDataSet.is_top"></el-switch>
+                </el-form-item>
+                <el-form-item label="排序">
+                    <el-input v-model="taskDataSet.sort"></el-input>
+                </el-form-item>
+                <el-form-item label="排序">
+                    <el-input v-model="taskDataSet.heat"></el-input>
+                </el-form-item>
+            </el-form>
+        </span>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="setVisible = false">取 消</el-button>
+            <el-button type="primary" @click="confirmEdit">确 定</el-button>
+        </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -88,11 +119,26 @@ export default {
         { label: '待审核', key: '0' },
         { label: '审核未通过 ', key: '9' }
       ],
+      setVisible: false,
       activeName: 'n',
       createdTimes: 0,
       submitData:{
         page: 0,
         number: 20
+      },
+      taskDataSet:{
+          id: '',
+          is_vip: false,
+          is_top: false,
+          sort: 0,
+          heat: 0
+      },
+      preEditData:{
+          id: '',
+          is_vip: false,
+          is_top: false,
+          sort: 0,
+          heat: 0
       },
       taskType: '0',
       taskTypeOptions:[{
@@ -166,7 +212,8 @@ export default {
   },
   methods:{
       ...mapActions('taskList',[
-          'getTaskListBy'
+          'getTaskListBy',
+          'upDataTaskDetailBy'
       ]),
       tabsHandleClick(tab, event){
         console.log(tab);
@@ -238,8 +285,48 @@ export default {
               })
             }
           }
-        });
-        
+        });        
+      },
+      handleSetOption(obj){
+        Object.assign(this.taskDataSet,{
+            id: obj.id,
+            is_vip: obj.is_vip,
+            is_top: obj.is_top,
+            sort: obj.sort,
+            heat: obj.heat
+        })
+        Object.assign(this.preEditData,{
+            id: obj.id,
+            is_vip: obj.is_vip,
+            is_top: obj.is_top,
+            sort: obj.sort,
+            heat: obj.heat
+        })
+        this.setVisible = true
+      },
+      confirmEdit(){
+          let flag = 0
+          let postData = new Object()
+          for (const key in this.taskDataSet) {
+              if (this.taskDataSet[key] != this.preEditData[key]) {
+                Object.assign(postData,{
+                    [key]: this.taskDataSet[key]
+                })
+                flag += 1
+              }
+          }
+          Object.assign(postData,{
+              id: this.taskDataSet.id
+          })
+          if (flag > 0) {
+              this.upDataTaskDetailBy(postData).then(res => {
+                console.log(res)
+                this.getTaskListBy({
+                    page: this.current,
+                    number: this.pageSize
+                })
+              })
+          }
       }
   }
 }

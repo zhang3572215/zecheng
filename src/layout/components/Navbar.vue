@@ -25,7 +25,7 @@
         </div>
         <el-dropdown-menu slot="dropdown">
           <router-link to="/profile/index">
-            <el-dropdown-item>Profile</el-dropdown-item>
+            <el-dropdown-item>修改密码</el-dropdown-item>
           </router-link>
           <!-- <router-link to="/">
             <el-dropdown-item>Dashboard</el-dropdown-item>

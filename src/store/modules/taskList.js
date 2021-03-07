@@ -1,4 +1,4 @@
-import { getTaskList } from '@/api/task'
+import { getTaskList, postDataToEditTask } from '@/api/task'
 import { testToken } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 const state = {
@@ -54,15 +54,25 @@ const state = {
         }
         console.log(data)
         getTaskList(data).then(res => {
+          if (res.code == '000000'){
             commit('UPDATE_TASK_LIST',res.data.data)
             commit('UPDATE_TASK_ATTRS',{
                 current: parseInt(res.data.page),
                 pageSize: parseInt(res.data.number),
                 totle: parseInt(res.data.count)
             })
+          }
         }).catch(err => {
             console.log(err)
         })
+    },
+    upDataTaskDetailBy({ commit, state, dispatch },params){
+      let data = {
+          token: state.token,
+          ...params
+      }
+      console.log(data)
+      postDataToEditTask(data)
     }
   }
   

@@ -29,3 +29,12 @@ export function getTaskDetail(data) {
     params: data
   })
 }
+
+//修改任务设置
+export function postDataToEditTask(data) {
+  return request({
+    url: 'updateTasksIsData',
+    method: 'post',
+    data: data
+  })
+}

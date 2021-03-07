@@ -26,11 +26,3 @@ export function getActivitiesList (data) {
     params: data
   })
 }
-// 新增活动线报
-export function postNewActivity (data) {
-  return request({
-    url: '/insertActivitiesData',
-    method: 'post',
-    data
-  })
-}

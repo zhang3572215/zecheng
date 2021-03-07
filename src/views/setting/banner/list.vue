@@ -42,12 +42,15 @@
                             <el-input v-model="submitData.link"></el-input>
                         </el-form-item>
                         <el-form-item label="图片">
-                            
-                            <div class="file-upload">
-                                <input type="file" @change="uploadFile">
-                                <el-image :src="submitData.pic" fit="contain" class="file-image" v-if="submitData.pic"></el-image>
-                                <div class="file-under" v-else>+</div>
-                            </div>
+                            <el-upload
+                                class="avatar-uploader"
+                                action="http://api.zechengnet.cn/layeditUpload"
+                                :show-file-list="false"
+                                :on-success="handleAvatarSuccess"
+                                :before-upload="beforeAvatarUpload">
+                                <img v-if="submitData.pic" :src="submitData.pic" class="avatar">
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
                         </el-form-item>
                     </el-form>
                 </span>
@@ -62,6 +65,7 @@
 
 <script>
 import { getToken } from '../../../utils/auth'
+import { postThumb } from '@/api/setting'
     export default {
         data() {
             return {
@@ -102,16 +106,26 @@ import { getToken } from '../../../utils/auth'
                 that.submitData = that.pics[idx]
                 that.dialogVisible = true
             },
+             handleAvatarSuccess(res, file) {
+                this.submitData.pic = res.data.src;
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt3M = file.size / 1024 / 1024 < 3;
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt3M) {
+                    this.$message.error('上传头像图片大小不能超过 3MB!');
+                }
+                return isJPG && isLt3M;
+            },
             uploadFile(e){
                 let that = this
                 console.log(e.target.files[0])
                 let reader = new FileReader()
                 reader.readAsDataURL(e.target.files[0])
-                reader.onloadend = function (){
-                    let dataUrl = reader.result;
-                    console.log(dataUrl)
-                    that.submitData.pic = dataUrl
-                }
+                
             },
             handleEditPic(){
                 that.submitData.pic
@@ -168,5 +182,33 @@ import { getToken } from '../../../utils/auth'
         line-height: 40px;
         text-align: center;
         cursor: pointer;
+    }
+    .avatar-uploader {
+        width: 80px;
+        height: 80px;
+        border: 1px dashed #d9d9d9;
+    }
+    .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+    }
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 80px;
+        height: 80px;
+        line-height: 80px;
+        text-align: center;
+    }
+    .avatar {
+        width: 80px;
+        height: 80px;
+        display: block;
     }
 </style>

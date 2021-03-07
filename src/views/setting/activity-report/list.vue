@@ -55,8 +55,10 @@
             </div>
             <el-dialog
                 title="编辑"
+                top="10vh"
                 :visible.sync="dialogVisible"
                 @opened="handleOpenDialog"
+                :close-on-click-modal="false"
                 width="30%">
                 <span>
                     <el-form label-width="80px">
@@ -90,13 +92,14 @@
                 </span>
                 <span slot="footer" class="dialog-footer">
                     <el-button @click="dialogVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                    <el-button type="primary" @click="handleEdit">确 定</el-button>
                 </span>
             </el-dialog>
             <el-dialog
                 title="新增"
                 :visible.sync="addVisible"
                 @opened="addOpenDialog"
+                :close-on-click-modal="false"
                 width="30%">
                 <span>
                     <el-form label-width="80px">
@@ -107,7 +110,6 @@
                             <el-input v-model="newData.description"></el-input>
                         </el-form-item>
                         <el-form-item label="缩略图">
-                            <el-input v-model="newData.thumb" type="text" styl="display: hidden;"></el-input>
                             <el-upload
                                 class="avatar-uploader"
                                 action="http://api.zechengnet.cn/layeditUpload"
@@ -152,7 +154,8 @@ layui.use('layedit', function(){
     
 });
 import { getToken } from '../../../utils/auth'
-import { getActivitiesList, postThumb, postNewActivity } from '@/api/setting'
+import { getActivitiesList, postThumb } from '@/api/setting'
+import request from '@/utils/request'
     export default {
         data() {
             return {
@@ -173,6 +176,7 @@ import { getActivitiesList, postThumb, postNewActivity } from '@/api/setting'
                     title: '标题3',
                     description: '描述',
                     thumb: '缩略图',
+                    type: '1',              //修改的话暂时默认展示
                     content: '内容'
                 },
                 newData:{
@@ -181,13 +185,15 @@ import { getActivitiesList, postThumb, postNewActivity } from '@/api/setting'
                     thumb: '',
                     content: ''
                 },
+                saveData:{},
                 editIndex: 0,
                 newIndex: 0,
                 dataMapping:{
                     title: '标题',
                     description: '描述',
                     thumb: '缩略图',
-                    content: '内容'
+                    content: '内容',
+                    type: '是否展示'
                 }
             }
         },
@@ -197,7 +203,8 @@ import { getActivitiesList, postThumb, postNewActivity } from '@/api/setting'
         methods: {
             handleRowEdit(obj) {
                 let that = this
-                that.editData = obj
+                that.editData = obj                
+                Object.assign(this.saveData,obj)          //建立data副本
                 that.dialogVisible = true                
             },
             addOpenDialog(){
@@ -221,6 +228,7 @@ import { getActivitiesList, postThumb, postNewActivity } from '@/api/setting'
                 this.editIndex = layedit.build('richtext',{
                     height: 150
                 }); //建立编辑器
+
             },
             titleChange(e){                
                 if (e!='') {
@@ -249,28 +257,38 @@ import { getActivitiesList, postThumb, postNewActivity } from '@/api/setting'
                 this.editData.thumb = res.data.src;
             },
             handleEdit(){
-                this.editData.content = layedit.getContent(this.editIndex)
+                let that = this
+                that.editData.content = layedit.getContent(that.editIndex)
                 let flag = 0
-                for (let key in this.editData) {
-                    if (this.editData[key] =='') {
-                        this.$message.error('缺少内容：'+this.dataMapping[key])
+                let postData = new Object()
+                Object.assign(postData,{id:that.editData.id})
+                for (let key in that.editData) {
+                    if (that.editData[key] == ''){
+                        that.$message.error('缺少内容：'+that.dataMapping[key])
                         flag = 1
                         return
+                    }else {
+                        if (that.editData[key] != that.saveData[key] ) {
+                            Object.assign(postData,{
+                                [key]:that.editData[key]
+                            })
+                        }
                     }
                 }
                 if (flag < 1) {
                     const formData = new FormData();
-                    for (const key in this.newData) {
-                        formData.append(key, this.newData[key]);
+                    for (const key in postData) {
+                        formData.append(key, postData[key]);
                     }
-                    postNewActivity(this.newData).then(res => {
+                    console.log(formData)
+                    request({
+                        url: '/updateActivitiesData',
+                        method: 'post',
+                        data: formData
+                    }).then(res => {
                         console.log(res)
-                        this.$message("提交成功")
-                        this.addVisible =false
-                        this.getActivityList()
-                    }).catch(err =>{
-                        console.log(err)
-                        this.addVisible =false
+                        that.dialogVisible = false
+                        that.getActivityList()
                     })
                 }                
             },
@@ -285,14 +303,18 @@ import { getActivitiesList, postThumb, postNewActivity } from '@/api/setting'
                     }
                 }
                 if (flag < 1) {
-                    postNewActivity(this.newData).then(res => {
+                    const formData = new FormData();
+                    for (const key in this.newData) {
+                        formData.append(key, this.newData[key]);
+                    }
+                    console.log(formData)
+                    request({
+                        url: '/insertActivitiesData',
+                        method: 'post',
+                        data: formData
+                    }).then(res => {
                         console.log(res)
-                        this.$message("提交成功")
-                        this.addVisible =false
                         this.getActivityList()
-                    }).catch(err =>{
-                        console.log(err)
-                        this.addVisible =false
                     })
                 }                
             },
