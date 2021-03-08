@@ -8,16 +8,7 @@
       <el-table-column prop="phone" min-width="40" label="用户手机号" align="center" />
       <el-table-column prop="amount" min-width="20" label="余额" align="center" />
       <el-table-column prop="openid" min-width="60" label="openid" align="center" />
-      <el-table-column prop="nickname" min-width="40" label="用户昵称" align="center" />
-      <el-table-column min-width="20" label="性别" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.sex == 1 ?'男':'女' }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="language" min-width="24" label="语言" align="center" />
-      <el-table-column prop="city" min-width="20" label="城市" align="center" />
-      <el-table-column prop="province" min-width="20" label="省份" align="center" />
-      <el-table-column prop="country" min-width="20" label="国家" align="center" />
+      <el-table-column prop="nickname" min-width="40" label="用户昵称" align="center" />     
       <el-table-column min-width="40" label="用户头像" align="center">
         <template slot-scope="scope">
           <el-image
@@ -35,6 +26,15 @@
       <el-table-column prop="logintime" min-width="40" label="最后登录时间" align="center" />
       <el-table-column prop="mytasks_count" min-width="40" label="接任务数量" align="center" />
       <el-table-column prop="tasks_count" min-width="40" label="发任务数量" align="center" />
+       <el-table-column min-width="20" label="性别" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.sex == 1 ?'男':'女' }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="language" min-width="24" label="语言" align="center" />
+      <el-table-column prop="city" min-width="20" label="城市" align="center" />
+      <el-table-column prop="province" min-width="20" label="省份" align="center" />
+      <el-table-column prop="country" min-width="20" label="国家" align="center" />
       <!-- 添加条目请追加到此处上方 -->
       <!-- <el-table-column min-width="40" label="操作" align="center" fixed="right">
             <template slot-scope="scope">

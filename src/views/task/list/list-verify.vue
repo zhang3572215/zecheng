@@ -24,9 +24,6 @@
         </el-col>
       </el-row>
     </div>
-    <!-- <el-tabs v-model="activeName" style="margin-top:15px;" type="border-card" @tab-click="tabsHandleClick">
-      <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
-        <keep-alive> -->
           <el-table :data="tableData" border fit highlight-current-row style="width: 100%" :header-row-style="{color:'#333333'}">
             <!-- <el-table-column prop="id" label="id" width="180" /> -->
             <!-- <el-table-column v-for="(iv,ik,ids) in tableData[0]" :key="ids" :label="formThead[ids]" :prop="ik" min-width="80" align="center">
@@ -62,7 +59,6 @@
               </template>
             </el-table-column>
           </el-table>
-        <!-- </keep-alive> -->
         <div class="task-list-page">
           <el-pagination
             @size-change="handleSizeChange"
@@ -74,8 +70,6 @@
             :total="totle">
           </el-pagination>
         </div>
-      <!-- </el-tab-pane>
-    </el-tabs> -->
     <el-dialog
         title="设置"
         top="10vh"
@@ -121,9 +115,10 @@ export default {
         { label: '审核未通过 ', key: '9' }
       ],
       setVisible: false,
-      activeName: '',
+      activeName: '0',
       createdTimes: 0,
       submitData:{
+        status: 0,
         page: 0,
         number: 20
       },
@@ -184,6 +179,7 @@ export default {
   mounted(){
       let that = this      
       this.getTaskListBy({
+        status: '0',
         page: 0,
         number: 20
       })

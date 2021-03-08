@@ -31,7 +31,7 @@
                     <el-table-column prop="date" min-width="40" label="上传时间" align="center" />
                     <el-table-column min-width="20" label="是否展示" align="center">
                         <template slot-scope="scope">
-                            {{scope.row.type ?'展示':'隐藏'}}
+                            {{scope.row.type==1 ?'展示':'隐藏'}}
                         </template>
                     </el-table-column>
                     <!-- 添加条目请追加到此处上方 -->
@@ -72,7 +72,10 @@
                             <el-input v-model="editData.description"></el-input>
                         </el-form-item>
                         <el-form-item label="是否展示">
-                            <el-switch v-model="editData.type"></el-switch>
+                            <el-switch 
+                                v-model="editData.type"
+                                active-value="1"
+                                inactive-value="2"></el-switch>
                         </el-form-item>
                         <el-form-item label="缩略图">
                             <el-upload

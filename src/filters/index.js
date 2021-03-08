@@ -66,3 +66,31 @@ export function toThousandFilter(num) {
 export function uppercaseFirst(string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
+
+/**
+ * taskStatus 任务状态数据字典
+ * @param {String} string
+ */
+export function taskStatusFillter(type) {
+  if (!type) return '未知'
+      switch (type) {
+        case '0':
+          return '待审核'
+          break;
+        case '1':
+          return '进行中'
+          break;
+        case '3':
+          return '已完成'
+          break;
+        case '9':
+          return '未通过'
+          break;
+        case '10':
+          return '已取消'
+          break;
+        default:
+          return '未知'
+          break;
+      }
+}

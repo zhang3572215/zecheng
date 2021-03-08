@@ -73,13 +73,14 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '/user',
+    name: 'admin',
     children: [
       {
-        path: 'dashboard',
+        path: '/user',
         component: () => import('@/views/user/list/list'),
-        name: 'Dashboard',
-        meta: { title: '用户列表', icon: 'list', affix: true }
+        name: 'user',
+        meta: { title: '用户列表', icon: 'user', affix: true }
       }
     ]
   },
@@ -87,15 +88,13 @@ export const constantRoutes = [
     path: 'tasklist',
     component: Layout,
     redirect: '/task/list',
-    name: 'task',
-    meta: { title: '任务', icon: 'list', affix: true },
-    alwaysShow: true,
+    alwaysShow: false,
     children: [
       {
         path: '/task/list',
         component: () => import('@/views/task/list/list'),
         name: 'Tasklist',
-        meta: { title: '任务列表', icon: 'list', affix: true }
+        meta: { title: '任务列表（总览）', icon: 'list', affix: true }
       },
       {
         path: '/task/detail',
@@ -107,12 +106,98 @@ export const constantRoutes = [
     ]
   },
   {
+    path: 'taskverify',
+    component: Layout,
+    redirect: '/taskverify',
+    alwaysShow: false,
+    children: [
+      {
+        path: '/taskverify',
+        component: () => import('@/views/task/list/list-verify'),
+        name: 'taskverify',
+        meta: { title: '待审核任务', icon: 'list', affix: true }
+      }
+    ]
+  },
+  {
+    path: 'taskfailed',
+    component: Layout,
+    redirect: '/taskfailed',
+    alwaysShow: false,
+    children: [
+      {
+        path: '/taskfailed',
+        component: () => import('@/views/task/list/list-failed'),
+        name: 'taskfailed',
+        meta: { title: '未通过任务', icon: 'list', affix: true }
+      }
+    ]
+  },
+  {
+    path: 'taskrelease',
+    component: Layout,
+    redirect: '/taskrelease',
+    alwaysShow: false,
+    children: [
+      {
+        path: '/taskrelease',
+        component: () => import('@/views/task/list/list-release'),
+        name: 'taskrelease',
+        meta: { title: '进行中任务', icon: 'list', affix: true }
+      }
+    ]
+  },
+  {
+    path: 'taskcomplete',
+    component: Layout,
+    redirect: '/taskcomplete',
+    alwaysShow: false,
+    children: [
+      {
+        path: '/taskcomplete',
+        component: () => import('@/views/task/list/list-complete'),
+        name: 'taskcomplete',
+        meta: { title: '已完成任务', icon: 'list', affix: true }
+      }
+    ]
+  },
+  {
+    path: 'taskreverify',
+    component: Layout,
+    redirect: '/taskreverify',
+    alwaysShow: false,
+    children: [
+      {
+        path: '/taskreverify',
+        component: () => import('@/views/task/list/list-reverify'),
+        name: 'taskreverify',
+        meta: { title: '下单用户待审核任务', icon: 'list', affix: true }
+      }
+    ]
+  },
+  {
+    path: 'newtask',
+    component: Layout,
+    redirect: '/task/new',
+    name: 'task',
+    meta: { title: '任务', icon: 'list', affix: true },
+    alwaysShow: false,
+    children: [
+      {
+        path: '/task/new',
+        component: () => import('@/views/task/list/new'),
+        name: 'NewTask',
+        meta: { title: '新增任务', icon: 'form', affix: true }
+      },
+    ]
+  },
+  {
     path: 'cashlist',
     component: Layout,
     redirect: '/cash/list',
     name: 'cash',
     meta: { title: '提现列表', icon: 'table', affix: true },
-    alwaysShow: true,
+    alwaysShow: false,
     children: [
       {
         path: '/cash/list',
@@ -128,7 +213,7 @@ export const constantRoutes = [
     redirect: '/recharge/list',
     name: 'recharge',
     meta: { title: '充值列表', icon: 'table', affix: true },
-    alwaysShow: true,
+    alwaysShow: false,
     children: [
       {
         path: '/recharge/list',
@@ -139,19 +224,27 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/setting',
+    path: '/banner',
     component: Layout,
-    redirect: '/setting/banner/index',
+    redirect: '/banner/index',
     name: 'setting',
-    alwaysShow: true,
-    meta: { title: '设置', icon: 'table', affix: true },
+    alwaysShow: false,
     children: [
       {
         path: '/banner/index',
         component: () => import('@/views/setting/banner/list'),
         name: 'banner',
         meta: { title: '轮播设置', icon: 'dashboard', noCache: true }
-      },
+      }
+    ]
+  },
+  {
+    path: '/activity-report',
+    component: Layout,
+    redirect: '/activity-report/index',
+    name: 'activity-report',
+    alwaysShow: false,
+    children: [
       {
         path: '/activity-report/index',
         component: () => import('@/views/setting/activity-report/list'),

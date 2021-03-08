@@ -16,8 +16,36 @@ const modules = modulesFiles.keys().reduce((modules, modulePath) => {
   modules[moduleName] = value.default
   return modules
 }, {})
-
+const state = {
+    taskTypeOptions:[{
+      value: '0',
+      label: '全部'
+    },{
+      value: '1',
+      label: '注册下载'
+    },{
+      value: '2',
+      label: '电商相关 '
+    },{
+      value: '3',
+      label: '多天阶梯 '
+    },{
+      value: '4',
+      label: '纯关注'
+    },{
+      value: '5',
+      label: '投票砍价'
+    },{
+      value: '6',
+      label: '纯转发'
+    },{
+      value: '7',
+      label: '其他  '
+    }
+  ]
+}
 const store = new Vuex.Store({
+  state,
   modules,
   getters
 })
