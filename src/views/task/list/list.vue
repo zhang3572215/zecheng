@@ -88,10 +88,10 @@
                     <el-input v-model="taskDataSet.id" disabled></el-input>
                 </el-form-item>
                 <el-form-item label="是否vip可见">
-                    <el-switch v-model="taskDataSet.is_vip"></el-switch>
+                    <el-switch v-model="taskDataSet.is_vip" :active-value="2" inactive-value="1"></el-switch>
                 </el-form-item>
                 <el-form-item label="是否头部展示">
-                    <el-switch v-model="taskDataSet.is_top"></el-switch>
+                    <el-switch v-model="taskDataSet.is_top" :active-value="1" inactive-value="0"></el-switch>
                 </el-form-item>
                 <el-form-item label="排序">
                     <el-input v-model="taskDataSet.sort"></el-input>
@@ -253,10 +253,10 @@ export default {
           callback: action => {
             // console.log(action)
             if (action == 'confirm') {
-              postTaskVerifyData({
-                token: this.token,
-                id: id
-              }).then(res => {
+              let formData = new FormData();
+              formData.append(token, this.token);
+              formData.append(id, id)
+              postTaskVerifyData(formData).then(res => {
                 console.log(res)
               }).catch(err => {
                 console.log(err.message)
@@ -294,10 +294,17 @@ export default {
               }
           }
           Object.assign(postData,{
-              id: this.taskDataSet.id
+              id: this.taskDataSet.id,
+              token: this.token
           })
           if (flag > 0) {
-              this.upDataTaskDetailBy(postData).then(res => {
+              console.log(postData)
+              let formData = new FormData();
+              for (const key in postData) {
+                formData.append([key], postData[key]);
+              }
+              console.log(formData)
+              this.upDataTaskDetailBy(formData).then(res => {
                 console.log(res)
                 this.getTaskListBy({
                     page: this.current,

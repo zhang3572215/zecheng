@@ -184,8 +184,8 @@ import { postThumb } from '@/api/setting'
         cursor: pointer;
     }
     .avatar-uploader {
-        width: 80px;
-        height: 80px;
+        width: 160px;
+        height: 160px;
         border: 1px dashed #d9d9d9;
     }
     .avatar-uploader .el-upload {
@@ -201,14 +201,14 @@ import { postThumb } from '@/api/setting'
     .avatar-uploader-icon {
         font-size: 28px;
         color: #8c939d;
-        width: 80px;
-        height: 80px;
-        line-height: 80px;
+        width: 160px;
+        height: 160px;
+        line-height: 160px;
         text-align: center;
     }
     .avatar {
-        width: 80px;
-        height: 80px;
+        width: 160px;
+        height: 160px;
         display: block;
     }
 </style>

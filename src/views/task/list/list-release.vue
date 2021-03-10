@@ -176,7 +176,7 @@ export default {
   mounted(){
       let that = this      
       this.getTaskListBy({
-        status: 1,
+        status: '1',
         page: 0,
         number: 20
       })
@@ -293,6 +293,7 @@ export default {
               this.upDataTaskDetailBy(postData).then(res => {
                 console.log(res)
                 this.getTaskListBy({
+                    status: '1',
                     page: this.current,
                     number: this.pageSize
                 })

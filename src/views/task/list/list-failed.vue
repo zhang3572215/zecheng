@@ -115,7 +115,7 @@ export default {
       activeName: '0',
       createdTimes: 0,
       submitData:{
-        status: 9,
+        status: '9',
         page: 0,
         number: 20
       },
@@ -176,7 +176,7 @@ export default {
   mounted(){
       let that = this      
       this.getTaskListBy({
-        status: 9,
+        status: '9',
         page: 0,
         number: 20
       })
@@ -293,6 +293,7 @@ export default {
               this.upDataTaskDetailBy(postData).then(res => {
                 console.log(res)
                 this.getTaskListBy({
+                    status: '9',
                     page: this.current,
                     number: this.pageSize
                 })

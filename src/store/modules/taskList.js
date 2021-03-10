@@ -67,12 +67,8 @@ const state = {
         })
     },
     upDataTaskDetailBy({ commit, state, dispatch },params){
-      let data = {
-          token: state.token,
-          ...params
-      }
-      console.log(data)
-      postDataToEditTask(data)
+      console.log(params)
+      postDataToEditTask(params)
     }
   }
   

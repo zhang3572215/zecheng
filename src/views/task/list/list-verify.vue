@@ -177,9 +177,9 @@ export default {
   //   }
   // },
   mounted(){
-      let that = this      
+      let that = this
       this.getTaskListBy({
-        status: '0',
+        status: encodeURIComponent("'0'"),
         page: 0,
         number: 20
       })
@@ -249,11 +249,16 @@ export default {
           callback: action => {
             // console.log(action)
             if (action == 'confirm') {
-              postTaskVerifyData({
-                token: this.token,
-                id: id
-              }).then(res => {
+              let formData = new FormData();
+              formData.append('token', this.token);
+              formData.append('id', id)
+              postTaskVerifyData(formData).then(res => {
                 console.log(res)
+                this.getTaskListBy({
+                    status: encodeURIComponent("'0'"),
+                    page: this.current,
+                    number: this.pageSize
+                })
               }).catch(err => {
                 console.log(err.message)
               })
@@ -296,6 +301,7 @@ export default {
               this.upDataTaskDetailBy(postData).then(res => {
                 console.log(res)
                 this.getTaskListBy({
+                    status: encodeURIComponent("'0'"),
                     page: this.current,
                     number: this.pageSize
                 })
