@@ -114,7 +114,7 @@ export default {
       setVisible: false,
       createdTimes: 0,
       submitData:{
-        status: 3,
+        status: '3',
         page: 0,
         number: 20
       },
@@ -292,6 +292,7 @@ export default {
               this.upDataTaskDetailBy(postData).then(res => {
                 console.log(res)
                 this.getTaskListBy({
+                    status: '3',
                     page: this.current,
                     number: this.pageSize
                 })

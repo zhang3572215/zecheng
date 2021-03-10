@@ -30,7 +30,7 @@ import request from '@/utils/request'
         methods: {
             onSubmit() {
                 request({
-                    url: 'updatepassword',
+                    url: 'updatePassword',
                     method: 'post',
                     data: this.submitData
                 }).then(res => {

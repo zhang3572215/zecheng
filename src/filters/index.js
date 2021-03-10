@@ -94,3 +94,46 @@ export function taskStatusFillter(type) {
           break;
       }
 }
+
+/**
+ * taskStatus 收集方式数据字典
+ * @param {String} string
+ */
+export function codeFillter(code){
+  if (!code) return '未知'
+  switch (code) {
+    case 1:
+      return '图文'
+      break;
+    case 2:
+      return '网址'
+      break;
+    case 3:
+      return '描述'
+      break;
+    default:
+      return '未知'
+      break;
+  }
+}
+/**
+ * taskStatus 收集类型数据字典
+ * @param {String} string
+ */
+export function taskItemTypeFillter(type){
+  if (!type) return '未知'
+  switch (type) {
+    case 'pic':
+      return '图文'
+      break;
+    case 'url':
+      return '网址'
+      break;
+    case 'text':
+      return '描述'
+      break;
+    default:
+      return '未知'
+      break;
+  }
+}

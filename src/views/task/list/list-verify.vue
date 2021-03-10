@@ -100,12 +100,31 @@
             <el-button type="primary" @click="confirmEdit">确 定</el-button>
         </span>
     </el-dialog>
+    <el-dialog title="审核" :visible.sync="verifyVisible">
+      <div>点击'通过'会将此条任务改为已审核状态，若不小心误操作请直接关闭，未通过审核请点击'不通过'</div>
+      <el-dialog
+        width="30%"
+        title="请输入未通过原因"
+        :visible.sync="innerVisible"
+        append-to-body>
+        <div>
+          <el-input type="text" v-model="verifyFailedDisc" placeholder="请输入未通过原因"></el-input>
+        </div>
+        <div slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="confirmVerifyFailed">通 过</el-button>
+        </div>
+      </el-dialog>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancelVerify">不 通 过</el-button>
+        <el-button type="primary" @click="confirmVerify">通 过</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import { postTaskVerifyData } from '@/api/task'
+import { postTaskVerifyData, postTaskFailedData } from '@/api/task'
 export default {
   data() {
     return {
@@ -122,6 +141,10 @@ export default {
         page: 0,
         number: 20
       },
+      verifyId: '',
+      verifyVisible: false,
+      innerVisible: false,
+      verifyFailedDisc: '',
       taskDataSet:{
           id: '',
           is_vip: false,
@@ -151,35 +174,10 @@ export default {
       'taskTypeOptions'
     ])
   },
-  // filters:{
-  //   taskStatusFillter(type){
-  //     if (!type) return '未知'
-  //     switch (type) {
-  //       case '0':
-  //         return '待审核'
-  //         break;
-  //       case '1':
-  //         return '进行中'
-  //         break;
-  //       case '3':
-  //         return '已完成'
-  //         break;
-  //       case '9':
-  //         return '未通过'
-  //         break;
-  //       case '10':
-  //         return '已取消'
-  //         break;
-  //       default:
-  //         return '未知'
-  //         break;
-  //     }
-  //   }
-  // },
   mounted(){
-      let that = this      
+      let that = this
       this.getTaskListBy({
-        status: '0',
+        status: encodeURIComponent("'0'"),
         page: 0,
         number: 20
       })
@@ -189,21 +187,7 @@ export default {
           'getTaskListBy',
           'upDataTaskDetailBy'
       ]),
-      // tabsHandleClick(tab, event){
-      //   console.log(tab);
-      //   let that = this
-      //   if (tab.index == 0) {
-      //     if (that.submitData.status) { 
-      //       delete that.submitData.status
-      //       that.getTaskListBy(that.submitData)
-      //     }else {
-      //       that.getTaskListBy(that.submitData)
-      //     }
-      //   }else {
-      //     Object.assign(that.submitData,{status: tab.name})
-      //     that.getTaskListBy(that.submitData)
-      //   }
-      // },
+     
       typeChangeHandle(val){
         let that = this
         console.log(val)
@@ -242,24 +226,38 @@ export default {
         })
       },
       handleRowVerify(id) {
-        this.$alert('点击确定会将此条任务改为已审核状态，若不小心误操作请点击取消', '审核提示', {
-          confirmButtonText: '确定',
-          showCancelButton: true,
-          cancelButtonText: '取消',
-          callback: action => {
-            // console.log(action)
-            if (action == 'confirm') {
-              postTaskVerifyData({
-                token: this.token,
-                id: id
-              }).then(res => {
-                console.log(res)
-              }).catch(err => {
-                console.log(err.message)
-              })
-            }
-          }
-        });        
+        this.verifyVisible = true
+        this.verifyId = id
+      },
+      confirmVerify(){
+        let formData = new FormData();
+        formData.append('token', this.token);
+        formData.append('id', this.verifyId)
+        postTaskVerifyData(formData).then(res => {
+          console.log(res)
+          this.verifyVisible = false
+          this.getTaskListBy({
+              status: encodeURIComponent("'0'"),
+              page: this.current,
+              number: this.pageSize
+          })
+        }).catch(err => {
+          console.log(err.message)
+        })
+      },
+      cancelVerify(id){
+        this.innerVisible = true
+      },
+      confirmVerifyFailed(){
+        let formData = new FormData();
+        formData.append('token', this.token);
+        formData.append('id', this.verifyId)
+        formData.append('discription', this.verifyFailedDisc)      // 未通过原因
+        postTaskFailedData(formData).then(res => {
+          console.log(res)
+        }).catch(err => {
+          console.log(err.message)
+        })
       },
       handleSetOption(obj){
         Object.assign(this.taskDataSet,{
@@ -296,6 +294,7 @@ export default {
               this.upDataTaskDetailBy(postData).then(res => {
                 console.log(res)
                 this.getTaskListBy({
+                    status: encodeURIComponent("'0'"),
                     page: this.current,
                     number: this.pageSize
                 })
