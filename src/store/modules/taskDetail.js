@@ -106,55 +106,34 @@ const state = {
     timeLimitMap:[
       {
         id: '0',
-        text: '一小时'
+        text: '10分钟'
       },{
         id: 1,
-        text: '二小时'
+        text: '20分钟'
       },{
         id: 2,
-        text: '三小时'
+        text: '30分钟'
       },{
         id: 3,
-        text: '四小时'
-      },{
-        id: 4,
-        text: '六小时'
-      },{
-        id: 5,
-        text: '八小时'
-      },{
-        id: 6,
-        text: '十小时'
-      },{
-        id: 7,
-        text: '十二小时'
-      },{
-        id: 8,
-        text: '一天'
-      },{
-        id: 9,
-        text: '二天'
+        text: '60分钟'
       }
     ],
     frameLimitMap:[
       {
         id: '0',
-        text: '一小时'
+        text: '1小时'
       },{
         id: 1,
-        text: '三小时'
+        text: '3小时'
       },{
         id: 2,
-        text: '十二小时'
-      },{
-        id: 3,
-        text: '一天'
+        text: '6小时'
       },{
         id: 4,
-        text: '二天'
+        text: '12小时'
       },{
         id: 5,
-        text: '三天'
+        text: '24小时'
       }
     ],
     maxLimitMap:[

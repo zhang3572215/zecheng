@@ -55,6 +55,7 @@ const state = {
         console.log(data)
         getTaskList(data).then(res => {
           if (res.code == '000000'){
+            console.log(res)
             commit('UPDATE_TASK_LIST',res.data.data)
             commit('UPDATE_TASK_ATTRS',{
                 current: parseInt(res.data.page),

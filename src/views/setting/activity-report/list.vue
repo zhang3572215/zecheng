@@ -343,8 +343,8 @@ import request from '@/utils/request'
             handleCurrentChange (val) {
                 const that = this
                 console.log(`当前页: ${val}`)
-                if (that.current != val) {
-                    Object.assign(that.submitData, { page: val })
+                if (that.current != val-1) {
+                    Object.assign(that.submitData, { page: val-1 })
                     // that.getUserListBy(that.submitData)
                 }
             },

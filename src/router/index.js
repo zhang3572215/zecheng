@@ -218,7 +218,7 @@ export const constantRoutes = [
       {
         path: '/recharge/list',
         component: () => import('@/views/cash/recharge/list'),
-        name: 'Tasklist',
+        name: 'Rechargelist',
         meta: { title: '充值列表', icon: 'list', affix: true }
       }
     ]
