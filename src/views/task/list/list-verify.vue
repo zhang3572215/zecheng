@@ -226,7 +226,6 @@ export default {
         })
       },
       handleRowVerify(id) {
-<<<<<<< HEAD
         this.verifyVisible = true
         this.verifyId = id
       },
@@ -259,31 +258,6 @@ export default {
         }).catch(err => {
           console.log(err.message)
         })
-=======
-        this.$alert('点击确定会将此条任务改为已审核状态，若不小心误操作请点击取消', '审核提示', {
-          confirmButtonText: '确定',
-          showCancelButton: true,
-          cancelButtonText: '取消',
-          callback: action => {
-            // console.log(action)
-            if (action == 'confirm') {
-              let formData = new FormData();
-              formData.append('token', this.token);
-              formData.append('id', id)
-              postTaskVerifyData(formData).then(res => {
-                console.log(res)
-                this.getTaskListBy({
-                    status: encodeURIComponent("'0'"),
-                    page: this.current,
-                    number: this.pageSize
-                })
-              }).catch(err => {
-                console.log(err.message)
-              })
-            }
-          }
-        });        
->>>>>>> a73df13dc540b13ba1c521543b9d30b89148eb93
       },
       handleSetOption(obj){
         Object.assign(this.taskDataSet,{

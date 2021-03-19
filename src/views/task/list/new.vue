@@ -44,29 +44,17 @@
                 <el-input-number v-model="submitData.count" controls-position="right" :min="10"></el-input-number>
             </el-form-item>
             <el-form-item label="任务完成时限" prop="enddate">
-<<<<<<< HEAD
                 <el-select v-model="submitData.enddatePublication" placeholder="请选择任务完成时限">
-=======
-                <el-select v-model="submitData.enddate" placeholder="请选择任务完成时限">
->>>>>>> a73df13dc540b13ba1c521543b9d30b89148eb93
                     <el-option v-for="item in timeLimitMap" :label="item.text" :value="item.id" :key="item.id"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="审核时限" prop="timeframe">
-<<<<<<< HEAD
                 <el-select v-model="submitData.timeframePublication" placeholder="请选择审核时限">
-=======
-                <el-select v-model="submitData.timeframe" placeholder="请选择审核时限">
->>>>>>> a73df13dc540b13ba1c521543b9d30b89148eb93
                     <el-option v-for="item in frameLimitMap" :label="item.text" :value="item.id" :key="item.id"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="任务限次" prop="max">
-<<<<<<< HEAD
                 <el-select v-model="submitData.maxPublication" placeholder="请选择审核时限">
-=======
-                <el-select v-model="submitData.max" placeholder="请选择审核时限">
->>>>>>> a73df13dc540b13ba1c521543b9d30b89148eb93
                     <el-option v-for="item in maxLimitMap" :label="item.text" :value="item.id" :key="item.id"></el-option>
                 </el-select>
             </el-form-item>
@@ -249,15 +237,9 @@ import { number } from 'echarts/lib/export'
                     type: '', 
                     money: 1.00,
                     count: 10,
-<<<<<<< HEAD
                     enddatePublication:'',
                     timeframePublication: '',
                     maxPublication: 0,
-=======
-                    enddate:'',
-                    timeframe: '',
-                    max: 0,
->>>>>>> a73df13dc540b13ba1c521543b9d30b89148eb93
                     endtime: '',
                 },
                 emptyData:{
