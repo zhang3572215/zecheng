@@ -106,6 +106,7 @@ const state = {
     timeLimitMap:[
       {
         id: '0',
+<<<<<<< HEAD
         text: '10分钟'
       },{
         id: 1,
@@ -116,11 +117,42 @@ const state = {
       },{
         id: 3,
         text: '60分钟'
+=======
+        text: '一小时'
+      },{
+        id: 1,
+        text: '二小时'
+      },{
+        id: 2,
+        text: '三小时'
+      },{
+        id: 3,
+        text: '四小时'
+      },{
+        id: 4,
+        text: '六小时'
+      },{
+        id: 5,
+        text: '八小时'
+      },{
+        id: 6,
+        text: '十小时'
+      },{
+        id: 7,
+        text: '十二小时'
+      },{
+        id: 8,
+        text: '一天'
+      },{
+        id: 9,
+        text: '二天'
+>>>>>>> a73df13dc540b13ba1c521543b9d30b89148eb93
       }
     ],
     frameLimitMap:[
       {
         id: '0',
+<<<<<<< HEAD
         text: '1小时'
       },{
         id: 1,
@@ -134,6 +166,24 @@ const state = {
       },{
         id: 5,
         text: '24小时'
+=======
+        text: '一小时'
+      },{
+        id: 1,
+        text: '三小时'
+      },{
+        id: 2,
+        text: '十二小时'
+      },{
+        id: 3,
+        text: '一天'
+      },{
+        id: 4,
+        text: '二天'
+      },{
+        id: 5,
+        text: '三天'
+>>>>>>> a73df13dc540b13ba1c521543b9d30b89148eb93
       }
     ],
     maxLimitMap:[
