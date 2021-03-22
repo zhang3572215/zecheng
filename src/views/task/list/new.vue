@@ -105,7 +105,7 @@
                         <template slot-scope="{row}">
                             <template v-if="row.id == editRowId && row.type=='pic'">
                                 <div class="upload-group">
-                                    <input type="file" @change="uploadFile">
+                                    <input type="file" @change="uploadItemFile">
                                     <el-image
                                         style="width: 96px; height: 96px"
                                         :src="row.url"
@@ -185,7 +185,7 @@
                         <template slot-scope="{row}">
                             <template v-if="row.id == editRowId && row.type=='pic'">
                                 <div class="upload-group">
-                                    <input type="file" @change="uploadFile">
+                                    <input type="file" @change="uploadInfoFile">
                                     <el-image
                                         style="width: 96px; height: 96px"
                                         :src="row.url"
@@ -331,13 +331,27 @@ import { number } from 'echarts/lib/export'
                 this.editRowId = 'no-data'
                 this.$refs.dragTable.doLayout()
             },
-            uploadFile(e){
+            uploadItemFile(e){
                 let that = this
                 let reader = new FileReader()
                 reader.readAsDataURL(e.target.files[0])
                 reader.onload = function(file){
                     console.log(file.target.result)
                     that.itemList.forEach(item => {
+                    if (item.id == that.editRowId) {
+                        item.url = file.target.result
+                    }
+                });
+                }
+                
+            },
+            uploadInfoFile(e){
+                let that = this
+                let reader = new FileReader()
+                reader.readAsDataURL(e.target.files[0])
+                reader.onload = function(file){
+                    console.log(file.target.result)
+                    that.infoList.forEach(item => {
                     if (item.id == that.editRowId) {
                         item.url = file.target.result
                     }
