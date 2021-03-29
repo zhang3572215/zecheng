@@ -43,8 +43,8 @@
             </el-table-column>
             <el-table-column prop="connection_count" min-width="24" label="已接单数量" align="center"></el-table-column>
             <el-table-column prop="completion_count" min-width="24" label="已完成数量" align="center"></el-table-column>
-            <el-table-column prop="timeframePublication" min-width="20" label="审核限时" align="center"></el-table-column>
-            <el-table-column prop="maxPublication" min-width="20" label="任务限次" align="center"></el-table-column>
+            <el-table-column prop="timeframe" min-width="20" label="审核限时" align="center"></el-table-column>
+            <el-table-column prop="max" min-width="20" label="任务限次" align="center"></el-table-column>
             <el-table-column prop="endtime" min-width="40" label="任务截止时间" align="center"></el-table-column>
             <el-table-column prop="description" min-width="40" label="任务描述" align="center"></el-table-column>
             <el-table-column prop="date" min-width="40" label="任务发布时间" align="center"></el-table-column>
