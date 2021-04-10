@@ -302,10 +302,13 @@ export default {
               console.log(formData)
               this.upDataTaskDetailBy(formData).then(res => {
                 console.log(res)
+                this.setVisible = false
                 this.getTaskListBy({
                     page: this.current,
                     number: this.pageSize
                 })
+              }).catch(err=> {
+                this.setVisible = false
               })
           }
       }
