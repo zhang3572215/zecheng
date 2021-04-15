@@ -1,8 +1,6 @@
 import { getTaskList, postDataToEditTask } from '@/api/task'
 import { testToken } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
 const state = {
-    token:getToken(),
     current: 0,
     pageSize: 2,
     totle: 0,
@@ -47,9 +45,9 @@ const state = {
   }
   
   const actions = {
-    getTaskListBy({ commit, state, dispatch },params){
+    getTaskListBy({ commit, state, rootState },params){
         let data = {
-            token: state.token,
+            token: rootState.user.token,
             ...params
         }
         console.log(data)

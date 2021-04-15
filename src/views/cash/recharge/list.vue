@@ -56,8 +56,10 @@ export default {
     }
   },
   computed: {
+    ...mapState('user',[
+      'token'
+    ]),
     ...mapState('rechargeList', [
-      'token',
       'current',
       'pageSize',
       'totle',

@@ -69,8 +69,10 @@ export default {
     }
   },
   computed: {
+    ...mapState('user',[
+      'token'
+    ]),
     ...mapState('userList', [
-      'token',
       'current',
       'pageSize',
       'totle',

@@ -3,7 +3,6 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
 const state = {
-  token: getToken(),
   current: 0,
   pageSize: 2,
   totle: 0,
@@ -27,7 +26,7 @@ const mutations = {
 
 const actions = {
   // user login
-  getUserListBy ({ commit, state }, obj) {
+  getUserListBy ({ commit, state, rootState }, obj) {
     console.log(obj)
     return new Promise((resolve, reject) => {
       getUserList(obj).then(response => {

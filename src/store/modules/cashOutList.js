@@ -1,9 +1,6 @@
 import { getCashList } from '@/api/cash'
-import { getToken, setToken, removeToken } from '@/utils/auth'
-import router, { resetRouter } from '@/router'
 
 const state = {
-  token: getToken(),
   current: 0,
   pageSize: 2,
   totle: 0,

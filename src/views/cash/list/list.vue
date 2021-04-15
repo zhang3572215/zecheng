@@ -56,8 +56,10 @@ export default {
     }
   },
   computed: {
-    ...mapState('cashOutList', [
-      'token',
+    ...mapState('user',[
+      'token'
+    ]),
+    ...mapState('cashOutList', [      
       'current',
       'pageSize',
       'totle',
