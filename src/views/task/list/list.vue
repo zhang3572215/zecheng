@@ -88,10 +88,10 @@
                     <el-input v-model="taskDataSet.id" disabled></el-input>
                 </el-form-item>
                 <el-form-item label="是否vip可见">
-                    <el-switch v-model="taskDataSet.is_vip" :active-value="2" inactive-value="1"></el-switch>
+                    <el-switch v-model="taskDataSet.is_vip" active-value="2" inactive-value="1"></el-switch>
                 </el-form-item>
                 <el-form-item label="是否头部展示">
-                    <el-switch v-model="taskDataSet.is_top" :active-value="1" inactive-value="0"></el-switch>
+                    <el-switch v-model="taskDataSet.is_top" active-value="1" inactive-value="0"></el-switch>
                 </el-form-item>
                 <el-form-item label="排序">
                     <el-input v-model="taskDataSet.sort"></el-input>
@@ -168,8 +168,8 @@ export default {
     }
   },
   computed: {
+    ...mapState('user',['token']),
     ...mapState('taskList',[
-      'token',
       'current',
       'pageSize',
       'totle',

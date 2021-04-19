@@ -78,8 +78,10 @@
             }
         },
         computed: {
+			...mapState('user',[
+				'token'
+			]),
             ...mapState('taskDetail',[
-				'token',
                 'infos',
                 'items'
             ])

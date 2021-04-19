@@ -140,8 +140,8 @@ export default {
     }
   },
   computed: {
+    ...mapState('user',['token']),
     ...mapState('taskList',[
-      'token',
       'current',
       'pageSize',
       'totle',

@@ -192,6 +192,19 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/appeal',
+    component: Layout,
+    redirect: '/appeal',
+    children: [
+      {
+        path: '/appeals',
+        component: () => import('@/views/appeal/index'),
+        name: 'user',
+        meta: { title: '申诉列表', icon: 'form', affix: true }
+      }
+    ]
+  },
+  {
     path: 'cashlist',
     component: Layout,
     redirect: '/cash/list',
