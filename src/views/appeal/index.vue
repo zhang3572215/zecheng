@@ -6,8 +6,12 @@
           <!-- <el-table-column prop="id" label="id" width="180" /> -->
           <!-- <el-table-column v-for="(iv,ik,ids) in tableData[0]" :key="ids" :label="formThead[ids]" :prop="ik" min-width="80" align="center">
             </el-table-column> -->
-          <el-table-column prop="id" min-width="40" label="申诉id" align="center" />
-          <el-table-column prop="tid" min-width="40" label="任务id" align="center" />
+          <el-table-column prop="id" min-width="30" label="申诉id" align="center" />
+          <el-table-column min-width="30" label="任务id" align="center" >
+            <template slot-scope="{row}">
+              <div style="cursor:pointer;" @click="toTaskDetail(row.tid)">{{ row.tid }}</div>
+            </template>
+          </el-table-column>
           <el-table-column min-width="20" label="状态" align="center">
             <template slot-scope="{row}">
               {{ row.type | typeFillter }}
@@ -19,9 +23,9 @@
               <el-image :src="baseUrl+row.url" class="appeal-img" fit="contain"/>
             </template>
           </el-table-column>
-          <el-table-column prop="date" min-width="80" label="用户昵称" align="center" />
+          <el-table-column prop="date" min-width="40" label="提交时间" align="center" />
           <!-- 添加条目请追加到此处上方 -->
-          <el-table-column min-width="40" label="操作" align="center" fixed="right">
+          <el-table-column min-width="20" label="操作" align="center" fixed="right">
                 <template slot-scope="{row}">
                   <el-button @click="handleTask(row.id)" type="text" size="small">处理</el-button>
                 </template>
@@ -120,6 +124,14 @@ export default {
         console.log(res)
         if (res.code == '000000') {
           this.getCashListBy(that.submitData)
+        }
+      })
+    },
+    toTaskDetail(tid){
+      this.$router.push({
+        path:'/task/detail',
+        query: {
+          id: tid
         }
       })
     }

@@ -20,7 +20,7 @@ export function postTaskVerifyData(data) {
 //任务审核失败（带原因）
 export function postTaskFailedData(data) {
   return request({
-    url: 'auditTasks',
+    url: 'auditNoTasks',
     method: 'post',
     data: data
   })

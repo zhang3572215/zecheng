@@ -117,7 +117,7 @@
           <el-input type="text" v-model="verifyFailedDisc" placeholder="请输入未通过原因"></el-input>
         </div>
         <div slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="confirmVerifyFailed">通 过</el-button>
+          <el-button type="primary" @click="confirmVerifyFailed">确  定</el-button>
         </div>
       </el-dialog>
       <div slot="footer" class="dialog-footer">
@@ -256,8 +256,12 @@ export default {
         formData.append('id', this.verifyId)
         formData.append('discription', this.verifyFailedDisc)      // 未通过原因
         postTaskFailedData(formData).then(res => {
+          this.innerVisible = false
+          this.verifyVisible = false
           console.log(res)
         }).catch(err => {
+          this.innerVisible = false
+          this.verifyVisible = false
           console.log(err.message)
         })
       },

@@ -54,7 +54,7 @@
             <el-table-column min-width="40" label="操作" align="center" fixed="right">
               <template slot-scope="scope">
                 <el-button @click="handleRowClick(scope.row.id)" type="text" size="small">查看</el-button>
-                <el-button @click="handleRowVerify(scope.row.id)" type="text" size="small">审核</el-button>
+                <!-- <el-button @click="handleRowVerify(scope.row.id)" type="text" size="small">审核</el-button> -->
                 <el-button @click="handleSetOption(scope.row)" type="text" size="small">设置</el-button>
               </template>
             </el-table-column>
@@ -111,7 +111,7 @@
           <el-input type="text" v-model="verifyFailedDisc" placeholder="请输入未通过原因"></el-input>
         </div>
         <div slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="confirmVerifyFailed">通 过</el-button>
+          <el-button type="primary" @click="confirmVerifyFailed">确  定</el-button>
         </div>
       </el-dialog>
       <div slot="footer" class="dialog-footer">
@@ -254,8 +254,12 @@ export default {
         formData.append('id', this.verifyId)
         formData.append('discription', this.verifyFailedDisc)      // 未通过原因
         postTaskFailedData(formData).then(res => {
+          this.innerVisible = false
+          this.verifyVisible = false
           console.log(res)
         }).catch(err => {
+          this.innerVisible = false
+          this.verifyVisible = false
           console.log(err.message)
         })
       },

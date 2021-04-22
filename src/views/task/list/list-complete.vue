@@ -51,8 +51,7 @@
             <el-table-column min-width="40" label="操作" align="center" fixed="right">
               <template slot-scope="scope">
                 <el-button @click="handleRowClick(scope.row.id)" type="text" size="small">查看</el-button>
-                <el-button @click="handleRowVerify(scope.row.id)" type="text" size="small">审核</el-button>
-                <el-button @click="handleSetOption(scope.row)" type="text" size="small">设置</el-button>
+                <!-- <el-button @click="handleSetOption(scope.row)" type="text" size="small">设置</el-button> -->
               </template>
             </el-table-column>
           </el-table>
