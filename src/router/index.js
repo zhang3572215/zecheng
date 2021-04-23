@@ -102,6 +102,13 @@ export const constantRoutes = [
         name: 'Taskdetail',
         hidden: true,
         meta: { title: '任务详情', icon: 'edit', affix: true }
+      },
+      {
+        path: '/task/:id',
+        component: () => import('@/views/task/list/accept-list'),
+        name: 'TaskAccept',
+        hidden: true,
+        meta: { title: '任务接单情况', icon: 'list', affix: true }
       }
     ]
   },

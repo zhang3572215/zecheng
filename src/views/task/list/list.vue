@@ -36,11 +36,7 @@
             <el-table-column prop="label" min-width="40" label="APP标签" align="center"></el-table-column>
             <el-table-column prop="equipment" min-width="30" label="任务设备" align="center"></el-table-column>
             <el-table-column prop="type" min-width="30" label="任务类型" align="center"></el-table-column>
-            <el-table-column min-width="70" label="任务合计" align="center">
-              <el-table-column prop="money" min-width="24" label="任务单价" align="center"></el-table-column>
-              <el-table-column prop="count" min-width="24" label="任务数量" align="center"></el-table-column>
-              <el-table-column prop="amount" min-width="24" label="总价" align="center"></el-table-column>
-            </el-table-column>
+
             <el-table-column prop="connection_count" min-width="24" label="已接单数量" align="center"></el-table-column>
             <el-table-column prop="completion_count" min-width="24" label="已完成数量" align="center"></el-table-column>
             <el-table-column prop="timeframe" min-width="20" label="审核限时" align="center"></el-table-column>
@@ -55,10 +51,11 @@
             </el-table-column>
             <!-- 添加条目请追加到此处上方 -->
             <el-table-column min-width="40" label="操作" align="center" fixed="right">
-              <template slot-scope="scope">
-                <el-button @click="handleRowClick(scope.row.id)" type="text" size="small">查看</el-button>
-                <el-button @click="handleRowVerify(scope.row.id)" type="text" size="small">审核</el-button>
-                <el-button @click="handleSetOption(scope.row)" type="text" size="small">设置</el-button>
+              <template slot-scope="{row}">
+                <el-button @click="handleRowClick(row.id)" type="text" size="small">查看</el-button>
+                <el-button @click="handleRowVerify(row.id)" type="text" size="small">审核</el-button>
+                <el-button @click="handleSetOption(row)" type="text" size="small">设置</el-button>
+                <el-button @click="$router.push('/task/'+row.id)" type="text" size="small">查看接单提交情况</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -299,11 +296,11 @@ export default {
           })
           if (flag > 0) {
               console.log(postData)
-              let formData = new FormData();
-              for (const key in postData) {
-                formData.append([key], postData[key]);
-              }
-              console.log(formData)
+              // let formData = new FormData();
+              // for (const key in postData) {
+              //   formData.append([key], postData[key]);
+              // }
+              console.log(postData)
               this.upDataTaskDetailBy(formData).then(res => {
                 console.log(res)
                 this.setVisible = false

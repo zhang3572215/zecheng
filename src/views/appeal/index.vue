@@ -123,7 +123,7 @@ export default {
       updateHelpList(postData).then(res => {
         console.log(res)
         if (res.code == '000000') {
-          this.getCashListBy(that.submitData)
+          this.getCashListBy(this.submitData)
         }
       })
     },
