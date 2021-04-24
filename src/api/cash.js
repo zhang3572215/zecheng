@@ -10,7 +10,7 @@ export function getCashList (data) {
     params: data
   })
 }
-//
+//获取充值列表
 export function getRechargeListBy (data) {
   return request({
     // url: 'getTasksList',
@@ -19,5 +19,17 @@ export function getRechargeListBy (data) {
     url: 'getMemberRecharge',
     method: 'get',
     params: data
+  })
+}
+
+//上传充值信息
+export function postRechargeInfoData (data) {
+  return request({
+    // url: 'getTasksList',
+    // method: 'post',
+    // data
+    url: 'paymentUpload',
+    method: 'post',
+    data: data
   })
 }

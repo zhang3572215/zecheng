@@ -44,7 +44,7 @@
                         <el-form-item label="图片">
                             <el-upload
                                 class="avatar-uploader"
-                                action="http://api.zechengnet.cn/layeditUpload"
+                                action="https://api.zechengnet.cn/layeditUpload"
                                 :show-file-list="false"
                                 :on-success="handleAvatarSuccess"
                                 :before-upload="beforeAvatarUpload">

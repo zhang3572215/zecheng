@@ -80,7 +80,7 @@
                         <el-form-item label="缩略图">
                             <el-upload
                                 class="avatar-uploader"
-                                action="http://api.zechengnet.cn/layeditUpload"
+                                action="https://api.zechengnet.cn/layeditUpload"
                                 :show-file-list="false"
                                 :on-success="handleEditSuccess"
                                 :before-upload="beforeAvatarUpload">
@@ -115,7 +115,7 @@
                         <el-form-item label="缩略图">
                             <el-upload
                                 class="avatar-uploader"
-                                action="http://api.zechengnet.cn/layeditUpload"
+                                action="https://api.zechengnet.cn/layeditUpload"
                                 :show-file-list="false"
                                 :on-success="handleAvatarSuccess"
                                 :before-upload="beforeAvatarUpload">
@@ -213,7 +213,7 @@ import request from '@/utils/request'
             addOpenDialog(){
                 layedit.set({
                     uploadImage: {
-                        url: 'http://api.zechengnet.cn/layeditUpload', //接口url
+                        url: 'https://api.zechengnet.cn/layeditUpload', //接口url
                         type: 'post' //默认post
                     }
                 });
@@ -224,7 +224,7 @@ import request from '@/utils/request'
             handleOpenDialog(){
                 layedit.set({
                     uploadImage: {
-                        url: 'http://api.zechengnet.cn/layeditUpload', //接口url
+                        url: 'https://api.zechengnet.cn/layeditUpload', //接口url
                         type: 'post' //默认post
                     }
                 });
@@ -283,7 +283,6 @@ import request from '@/utils/request'
                     for (const key in postData) {
                         formData.append(key, postData[key]);
                     }
-                    console.log(formData)
                     request({
                         url: '/updateActivitiesData',
                         method: 'post',

@@ -287,6 +287,20 @@ export const constantRoutes = [
         meta: { title: '修改密码', icon: 'user', noCache: true }
       }
     ]
+  // },
+  // {
+  //   path: 'rechargeInfo',
+  //   component: Layout,
+  //   redirect: '/rechargeInfo',
+  //   alwaysShow: false,
+  //   children: [
+  //     {
+  //       path: '/rechargeInfo',
+  //       component: () => import('@/views/recharge/recharge'),
+  //       name: 'rechargeInfo',
+  //       meta: { title: '充值设置', icon: 'money', affix: true }
+  //     }
+  //   ]
   }
 ]
 

@@ -252,7 +252,10 @@ export default {
         let formData = new FormData();
         formData.append('token', this.token);
         formData.append('id', this.verifyId)
-        formData.append('discription', this.verifyFailedDisc)      // 未通过原因
+        formData.append('reasons', this.verifyFailedDisc)      // 未通过原因
+        formData.forEach((value, key) => {
+            console.log("key %s: value %s", key, value);
+        })
         postTaskFailedData(formData).then(res => {
           this.innerVisible = false
           this.verifyVisible = false
