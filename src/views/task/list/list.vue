@@ -281,19 +281,22 @@ export default {
       },
       confirmEdit(){
           let flag = 0
-          let postData = new Object()
+          let postData = new FormData()
           for (const key in this.taskDataSet) {
               if (this.taskDataSet[key] != this.preEditData[key]) {
-                Object.assign(postData,{
-                    [key]: this.taskDataSet[key]
-                })
+                // Object.assign(postData,{
+                //     [key]: this.taskDataSet[key]
+                // })
+                postData.append(key,this.taskDataSet[key])
                 flag += 1
               }
           }
-          Object.assign(postData,{
-              id: this.taskDataSet.id,
-              token: this.token
-          })
+          // Object.assign(postData,{
+          //     id: this.taskDataSet.id,
+          //     token: this.token
+          // })
+          postData.append('id',this.taskDataSet.id)
+          postData.append('token',this.token)
           if (flag > 0) {
               console.log(postData)
               // let formData = new FormData();
@@ -301,7 +304,7 @@ export default {
               //   formData.append([key], postData[key]);
               // }
               console.log(postData)
-              this.upDataTaskDetailBy(formData).then(res => {
+              this.upDataTaskDetailBy(postData).then(res => {
                 console.log(res)
                 this.setVisible = false
                 this.getTaskListBy({

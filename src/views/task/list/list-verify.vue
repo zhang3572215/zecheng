@@ -288,15 +288,18 @@ export default {
           let postData = new Object()
           for (const key in this.taskDataSet) {
               if (this.taskDataSet[key] != this.preEditData[key]) {
-                Object.assign(postData,{
-                    [key]: this.taskDataSet[key]
-                })
+                // Object.assign(postData,{
+                //     [key]: this.taskDataSet[key]
+                // })
+                postData.append(key,this.taskDataSet[key])
                 flag += 1
               }
           }
-          Object.assign(postData,{
-              id: this.taskDataSet.id
-          })
+          // Object.assign(postData,{
+          //     id: this.taskDataSet.id
+          // })
+          postData.append('id',this.taskDataSet.id)
+          postData.append('token',this.token)
           if (flag > 0) {
               this.upDataTaskDetailBy(postData).then(res => {
                 console.log(res)

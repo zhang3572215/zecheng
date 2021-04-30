@@ -45,7 +45,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import { postPassCashData } from '@/api/cash'
+import { postPassCashData, postNoPassCashData } from '@/api/cash'
 export default {
   data () {
     return {
@@ -130,8 +130,8 @@ export default {
       that.$confirm('点击通过会通过此提现申请，并打款给提现人','提示',{
         confirmButtonText: '通过',
         cancelButtonText: '不通过',
+        distinguishCancelAndClose: true,
         callback: function(action) {
-          console.log('提现审核通过')
           if (action == 'confirm') {
             let postData = new FormData()
             postData.append('openid',openId)
@@ -139,14 +139,34 @@ export default {
             postData.append('fid',id)
             postPassCashData(postData).then(res => {
               console.log(res)
-              that.getCashListBy(that.submitData)
+              if (res.code=='000000') {
+                that.getCashListBy(that.submitData)
+              }else if (res.code=='999999'){
+                that.$confirm(res.err_code_des,res.return_msg)
+              }
+            }).catch(err => {
+              that.$confirm(err.err_code_des,err.return_msg)
+            })
+          }else if (action == 'cancel') {
+            let postData = new FormData()
+            postData.append('fid',id)
+            postNoPassCashData(postData).then(res => {
+              console.log(res)
+              if (res.code== '000000') {
+               that.getCashListBy(that.submitData)
+              }else if (res.code=='999999'){
+                that.$confirm(res.err_code_des,res.return_msg)
+              }
+            }).catch(err => {
+              console.log(err)
+              that.$confirm(err.err_code_des,err.return_msg)
             })
           }
         }
       })
       
     }
-  }
+  },
 }
 </script>
 <style scoped>

@@ -42,3 +42,12 @@ export function postPassCashData (data) {
     data: data
   })
 }
+
+//提现通过审核
+export function postNoPassCashData (data) {
+  return request({
+    url: 'refuseCash',
+    method: 'post',
+    data: data
+  })
+}
