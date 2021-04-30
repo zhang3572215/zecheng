@@ -27,7 +27,7 @@
           <!-- 添加条目请追加到此处上方 -->
           <el-table-column min-width="20" label="操作" align="center" fixed="right">
                 <template slot-scope="{row}">
-                  <el-button @click="handleTask(row.id)" v-if="row.type=='0'" type="text" size="small">处理</el-button>
+                  <el-button @click="handleTask(row)" v-if="row.type=='0'" type="text" size="small">处理</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -101,7 +101,7 @@ export default {
     that.getHelpListBy(that.submitData)
   },
   methods: {
-    ...mapActions('appeal', [
+    ...mapActions('appeal',[
       'getHelpListBy'
     ]),
     handleSizeChange (val) {
@@ -116,36 +116,39 @@ export default {
       console.log(`当前页: ${val}`)
       if (that.current != val-1) {
         Object.assign(that.submitData, { page: val-1 })
-        that.getCashListBy(that.submitData)
+        that.getHelpListBy(that.submitData)
       }
     },
-    handleTask(id){
+    handleTask(obj){
       let that = this
       that.$prompt('输入处理说明',{
         cancelButtonText:'驳回',
         confirmButtonText:'通过',
         callback:(action,instance) => {
-          console.log(instance.inputValue)
+          console.log(instance.inputValue?instance.inputValue:'')
           console.log(action)
           if (action == 'confirm'){
-            that.toPostHandleData(1,instance.inputValue,id)
+            that.toPostHandleData(1,instance.inputValue,obj)
           }else if (action == 'cancel') {
-            that.toPostHandleData(2,instance.inputValue,id)
+            that.toPostHandleData(2,instance.inputValue,obj)
           }
         }
       })
     },
-    toPostHandleData(type,val,id){
+    toPostHandleData(type,val,obj){
       let that = this
       let postData = new FormData()
       postData.append('token',this.token)
-      postData.append('id',id)
+      postData.append('id',obj.id)
       postData.append('reasons',val)
       postData.append('type',type)
+      postData.append('tid',obj.tid)
+      postData.append('myid',obj.myid)
+      postData.append('mid',obj.mid)
       updateHelpList(postData).then(res => {
         console.log(res)
         if (res.code == '000000') {
-          that.getCashListBy(this.submitData)
+          that.getHelpListBy(that.submitData)
         }
       })
     },

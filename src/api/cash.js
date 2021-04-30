@@ -33,3 +33,12 @@ export function postRechargeInfoData (data) {
     data: data
   })
 }
+
+//提现通过审核
+export function postPassCashData (data) {
+  return request({
+    url: 'cashAudit',
+    method: 'post',
+    data: data
+  })
+}

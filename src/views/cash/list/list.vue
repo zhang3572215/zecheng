@@ -15,20 +15,20 @@
       <el-table-column prop="startdate" min-width="40" label="开始时间" align="center" />
       <el-table-column prop="enddate" min-width="40" label="结束时间" align="center" />
       <el-table-column min-width="20" label="提现状态" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.status == 0?'进行中':'已完成' }}
+        <template slot-scope="{row}">
+          {{ row.status | statusFilter}}
         </template>
       </el-table-column>
       <el-table-column prop="nickname" min-width="40" label="用户昵称" align="center" />
       <el-table-column prop="balance" min-width="30" label="账户余额" align="center" />
 
       <!-- 添加条目请追加到此处上方 -->
-      <!-- <el-table-column min-width="40" label="操作" align="center" fixed="right">
-            <template slot-scope="scope">
-            <el-button @click="handleRowClick(scope.row.id)" type="text" size="small">查看</el-button>
-            <el-button @click="handleRowVerify(scope.row.id)" type="text" size="small">审核</el-button>
+      <el-table-column min-width="40" label="操作" align="center" fixed="right">
+            <template slot-scope="{row}">
+            <!-- <el-button @click="handleRowClick(row.id)" type="text" size="small">查看</el-button> -->
+              <el-button @click="handleRowVerify(row.id,row.amount,row.openid)" type="text" size="small">处理</el-button>
             </template>
-        </el-table-column> -->
+        </el-table-column>
     </el-table>
     <div class="task-list-page">
       <el-pagination
@@ -38,14 +38,14 @@
         layout="total, sizes, prev, pager, next"
         :total="totle"
         @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      />
+        @current-change="handleCurrentChange"/>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import { postPassCashData } from '@/api/cash'
 export default {
   data () {
     return {
@@ -80,6 +80,23 @@ export default {
           return '未知类型'
           break
       }
+    },
+    statusFilter(val) {
+      if (!val) return '未知类型'
+      switch (val) {
+        case '0':
+          return '进行中'
+          break
+        case '1':
+          return '已完成'
+          break
+        case '2':
+          return '拒绝'
+          break
+        default:
+          return '未知状态'
+          break
+      }
     }
   },
   mounted () {
@@ -107,6 +124,27 @@ export default {
         Object.assign(that.submitData, { page: val-1 })
         that.getCashListBy(that.submitData)
       }
+    },
+    handleRowVerify(id,num,openId) {
+      const that = this;
+      that.$confirm('点击通过会通过此提现申请，并打款给提现人','提示',{
+        confirmButtonText: '通过',
+        cancelButtonText: '不通过',
+        callback: function(action) {
+          console.log('提现审核通过')
+          if (action == 'confirm') {
+            let postData = new FormData()
+            postData.append('openid',openId)
+            postData.append('amount',num)
+            postData.append('fid',id)
+            postPassCashData(postData).then(res => {
+              console.log(res)
+              that.getCashListBy(that.submitData)
+            })
+          }
+        }
+      })
+      
     }
   }
 }
