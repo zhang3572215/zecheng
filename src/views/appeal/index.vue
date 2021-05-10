@@ -7,9 +7,14 @@
           <!-- <el-table-column v-for="(iv,ik,ids) in tableData[0]" :key="ids" :label="formThead[ids]" :prop="ik" min-width="80" align="center">
             </el-table-column> -->
           <el-table-column prop="id" min-width="30" label="申诉id" align="center" />
-          <el-table-column min-width="30" label="任务id" align="center" >
+          <el-table-column min-width="30" label="任务ID" align="center" >
             <template slot-scope="{row}">
               <div style="cursor:pointer;" @click="toTaskDetail(row.tid)">{{ row.tid }}</div>
+            </template>
+          </el-table-column>
+          <el-table-column  min-width="30" label="用户接单ID" align="center" >
+            <template slot-scope="{row}">
+              <div style="cursor:pointer;" @click="toFormDetail(row.myid,row.tid,row.mid)">{{ row.myid }}</div>
             </template>
           </el-table-column>
           <el-table-column min-width="20" label="状态" align="center">
@@ -153,6 +158,14 @@ export default {
       })
     },
     toTaskDetail(tid){
+      this.$router.push({
+        path:'/task/detail',
+        query: {
+          id: tid
+        }
+      })
+    },
+    toFormDetail(myid,tid,mid){
       this.$router.push({
         path:'/task/detail',
         query: {

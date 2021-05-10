@@ -206,8 +206,15 @@ export const constantRoutes = [
       {
         path: '/appeals',
         component: () => import('@/views/appeal/index'),
-        name: 'user',
+        name: 'appeals',
         meta: { title: '申诉列表', icon: 'form', affix: true }
+      },
+      {
+        path: '/form-detail/:mid/:tid/:myid',
+        component: () => import('@/views/appeal/form-detail'),
+        name: 'formDetail',
+        hidden: true,
+        meta: { title: '用户提交表单详情', icon: 'form', affix: true }
       }
     ]
   },
