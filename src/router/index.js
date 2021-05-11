@@ -202,19 +202,21 @@ export const constantRoutes = [
     path: '/appeal',
     component: Layout,
     redirect: '/appeal',
+    name: 'appeal',
+    meta: {noCache: false},
     children: [
       {
         path: '/appeals',
         component: () => import('@/views/appeal/index'),
         name: 'appeals',
-        meta: { title: '申诉列表', icon: 'form', affix: true }
+        meta: { title: '申诉列表', icon: 'form', affix: true ,noCache: false}
       },
       {
         path: '/form-detail/:mid/:tid/:myid',
         component: () => import('@/views/appeal/form-detail'),
         name: 'formDetail',
         hidden: true,
-        meta: { title: '用户提交表单详情', icon: 'form', affix: true }
+        meta: { title: '用户提交表单详情', icon: 'form', affix: true ,noCache: false}
       }
     ]
   },

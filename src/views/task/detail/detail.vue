@@ -18,6 +18,7 @@
 						<el-image v-if="scope.row.type == 'pic'"
 							style="width: 96px; height: 96px"
 							:src="'http://api.zechengnet.cn'+scope.row.url"
+							:preview-src-list="subInfoPicList"
 							fit="scale-down"/>
 					</template>
 				</el-table-column>
@@ -49,6 +50,7 @@
 						<el-image v-if="scope.row.type == 'pic'"
 							style="width: 96px; height: 96px"
 							:src="'http://api.zechengnet.cn'+scope.row.url"
+							:preview-src-list="subInfoPicList"
 							fit="scale-down"/>
 					</template>
 				</el-table-column>
@@ -64,7 +66,7 @@
 </template>
 
 <script>
-    import { mapState, mapActions } from 'vuex'
+    import { mapState, mapActions, mapGetters } from 'vuex'
     export default {
         data() {
             return {
@@ -84,7 +86,11 @@
             ...mapState('taskDetail',[
                 'infos',
                 'items'
-            ])
+            ]),
+			...mapGetters('taskDetail',[
+				'subInfoPicList',
+				'subItemPicList'
+			])
         },
         filters: {
             itemTypeFilter(type) {

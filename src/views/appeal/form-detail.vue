@@ -1,142 +1,160 @@
 <template>
-    <div class="task-detail">
-		<div class="task-items">
-			<h4>信息收集</h4>
-			<el-table :data="infos" border fit highlight-current-row style="width: 100%" :header-row-style="{color:'#333333'}" current-row-key='id'>
-				<!-- <el-table-column prop="id" label="id" width="180" /> -->
-				<!-- <el-table-column v-for="(iv,ik,ids) in tableData[0]" :key="ids" :label="formThead[ids]" :prop="ik" min-width="80" align="center">
-				</el-table-column> -->
-				<el-table-column min-width="20" label="收集类型" align="center">
-					<template slot-scope="scope">
-						{{scope.row.code == '1'?'收集截图':'手机信息'}}
-					</template>
-				</el-table-column>
-				<el-table-column prop="id" min-width="60" label="id" align="center"></el-table-column>
-				<el-table-column prop="type" min-width="20" label="类型" align="center"></el-table-column>
-				<el-table-column min-width="40" label="图片地址" align="center">
-					<template slot-scope="scope">
-						<el-image v-if="scope.row.type == 'pic'"
-							style="width: 96px; height: 96px"
-							:src="'http://api.zechengnet.cn'+scope.row.url"
-							fit="scale-down"/>
-					</template>
-				</el-table-column>
-				<el-table-column prop="text" min-width="80" label="描述" align="center"></el-table-column>
-				<!-- 添加条目请追加到此处上方 -->
-				<!-- <el-table-column min-width="40" label="操作" align="center" fixed="right">
-				<template slot-scope="scope">
-					<el-button @click="handleRowClick(scope.row.id)" type="text" size="small">查看</el-button>
-					<el-button @click="handleRowVerify(scope.row.id)" type="text" size="small">审核</el-button>
-				</template>
-				</el-table-column> -->
-			</el-table>          
+	<div class="content">
+		<div class="cards">
+			<el-card class="box-card">
+				<div slot="header" class="flex">
+					<span class="title">用户信息</span>
+				</div>
+				<div class="info-hro">
+					<div class="avatar">
+						<img :src="detailData.headimgurl" alt="" srcset="">
+					</div>
+					<div class="info">
+						<p class="info-lable">用户昵称：{{detailData.nickname}}</p>
+						<p class="info-lable">提交时间：{{detailData.date}}</p>
+					</div>
+				</div>
+			</el-card>
 		</div>
-		<div  class="task-items">
-			<h4>任务步骤</h4>
-			<el-table :data="items" border fit highlight-current-row style="width: 100%" :header-row-style="{color:'#333333'}" current-row-key='id'>
-				<!-- <el-table-column prop="id" label="id" width="180" /> -->
-				<!-- <el-table-column v-for="(iv,ik,ids) in tableData[0]" :key="ids" :label="formThead[ids]" :prop="ik" min-width="80" align="center">
-				</el-table-column> -->
-				
-				<el-table-column prop="id" min-width="20" label="id" align="center"></el-table-column>
-				<el-table-column min-width="20" label="说明类型" align="center">
-					<template slot-scope="scope">
-						{{scope.row.type | itemTypeFilter}}
-					</template>
-				</el-table-column>
-				<el-table-column min-width="40" label="图片地址" align="center">
-					<template slot-scope="scope">
-						<el-image v-if="scope.row.type == 'pic'"
-							style="width: 96px; height: 96px"
-							:src="'http://api.zechengnet.cn'+scope.row.url"
-							fit="scale-down"/>
-					</template>
-				</el-table-column>
-				<el-table-column prop="text" min-width="80" label="描述" align="center"></el-table-column>
-				<el-table-column min-width="80" label="网址描述" align="center">
-					<template slot-scope="scope" v-if="scope.row.type=='url'">
-						{{scope.row.url}}
-					</template>
-				</el-table-column>
-			</el-table>
+		<div class="cards">
+			<el-card class="box-card">
+				<div slot="header" class="flex">
+					<span class="title">文字描述信息</span>
+				</div>
+				<div class="info-ver">
+					<div v-for="item in detailData.infostext" :key="item.id" class="list-item">
+						<div>{{item.text}}</div>
+						<img :src="url+item.url" v-if="item.type == 'pic'" alt="">
+						<p v-if="item.type == 'url'">活动链接： <a :href="item.url">{{item.url}}</a> </p>
+					</div>
+				</div>
+			</el-card>
+			<el-card class="box-card">
+				<div slot="header" class="flex">
+					<span class="title">截图</span>
+				</div>
+				<div class="info-ver">
+					<div v-for="item in detailData.infos" :key="item.id" class="list-item">
+						<!-- <img :src="baseUrl+item.url" v-if="item.code == '1'" alt=""> -->
+						<el-image :src="baseUrl+item.url" v-if="item.code == '1'" :preview-src-list="subPicList"/>
+					</div>
+				</div>
+			</el-card>
 		</div>
-    </div>
+	</div>
 </template>
 
 <script>
-    import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
     export default {
         data() {
             return {
-                id: '',
-                list: null,
-                listLoading: true,
-                listQuery: {
-                    page: 1,
-                    limit: 10
-                }
+                baseUrl:process.env.VUE_APP_BASE_API
             }
         },
         computed: {
 			...mapState('user',[
 				'token'
 			]),
-            ...mapState('taskDetail',[
-                'infos',
-                'items'
-            ])
-        },
-        filters: {
-            itemTypeFilter(type) {
-				if (!type) return '未知类型'
-				switch (type) {
-					case 'pic':
-						return '图文说明'
-						break;
-					case 'url':
-						return '网址说明'
-						break;
-					case 'text':
-						return '文字说明'
-						break;
-					default:
-						return '未知类型'
-						break;
-				}
-            }
+            ...mapState('userForm',[
+                'detailData'
+            ]),
+			...mapGetters('userForm',[
+				'subPicList'
+			])
         },
         mounted () {
             let that = this
-            if (that.$route.query.id) {
-				that.id = that.$route.query.id
-				that.getTaskDetailBy({
+			console.log(that.$route.params)
+            if (that.$route.params.myid) {
+				that.getUserSubmitDataBy({
 					token: that.token,
-					id: that.id
+					myid: that.$route.params.myid,
+					tid: that.$route.params.tid,
+					mid: that.$route.params.mid
 				})
             }else {
                 that.$router.back
             }
 		},
 		methods:{
-			...mapActions('taskDetail',[
-				'getTaskDetailBy'
+			...mapActions('userForm',[
+				'getUserSubmitDataBy'
 			])
 		}
     }
 </script>
 
 <style scoped>
-    .task-detail {
-        padding: 30px 60px;
-		background-color: #f5f5f5;
-    }
-	.task-items {
-		margin-top: 30px;
-		padding: 10px 30px;
-		background-color: #ffffff;
-		border-radius: 12px;
-	}
-	.task-items h4 {
-		margin: 10px 0 20px;
-	}
+.content {
+    margin-top: 30px;
+	padding: 0 30px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-column-gap: 40px;
+}
+.cards  .box-card + .box-card {
+    margin-top: 20px;
+}
+.info-lable {
+    margin-bottom: 10px;
+    font-size: 0.875rem;
+    color: #333;
+    line-height: 1em;
+    text-align: left;
+}
+.info-lable:last-child {
+    margin-bottom: 0;
+}
+.list-title {
+    margin: 20px 0;
+}
+.list-item {
+    margin:  0;
+    padding: 10px 15px;
+}
+.list-item div {
+    margin: 0;
+}
+.list-item img {
+    max-width: 100%;
+}
+.info-value {
+    font-size: 0.875rem;
+    color: #999;
+    line-height: 1em;
+    text-align: left;
+}
+.info-value-red {
+    color: red;
+}
+.info-hro {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+.avatar {
+    width: 80px;
+    height: 80px;
+    margin-right: 15px;
+    border-radius: 40px;
+    overflow: hidden;
+}
+.avatar img {
+    max-width: 100%;
+    max-height: 100%;
+}
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+.info > p:first-child {
+    margin-top: 0;
+}
+.info > p:last-child {
+    margin-bottom: 0;
+}
 </style>

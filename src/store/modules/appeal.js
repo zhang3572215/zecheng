@@ -5,7 +5,15 @@ const state = {
     totle: 0,
     list: []
   }
-  
+  const getters = {
+    subPicList(state){
+        let arr = new Array()
+        state.list.forEach(item => {
+          arr.push(process.env.VUE_APP_BASE_API+item.url)
+        });
+        return arr
+    }
+  }
   const mutations = {
     UPDATA_LIST: (state, obj) => {
         state.list = obj.data
@@ -14,7 +22,6 @@ const state = {
         state.totle =obj.count
     }
   }
-  
   const actions = {
     getHelpListBy({ commit, rootState }, params){
         Object.assign(params,{token: rootState.user.token})
@@ -30,6 +37,7 @@ const state = {
   export default {
     namespaced: true,
     state,
+    getters,
     mutations,
     actions
   }

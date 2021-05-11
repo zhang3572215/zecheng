@@ -152,7 +152,26 @@ const state = {
       }
     ]
   }
-  
+  const getters = {
+    subInfoPicList(state){
+        let arr = new Array()
+        state.infos.forEach(item => {
+            if (item.code=='1'){
+                arr.push(process.env.VUE_APP_BASE_API+item.url)
+            }
+        });
+        return arr
+    },
+    subItemPicList(state){
+      let arr = new Array()
+      state.items.forEach(item => {
+          if (item.code=='1'){
+              arr.push(process.env.VUE_APP_BASE_API+item.url)
+          }
+      });
+      return arr
+    }
+  }
   const mutations = {
     UPDATE_INFO_LIST: (state, list) => {
       state.infos = []
@@ -187,6 +206,7 @@ const state = {
   export default {
     namespaced: true,
     state,
+    getters,
     mutations,
     actions
   }

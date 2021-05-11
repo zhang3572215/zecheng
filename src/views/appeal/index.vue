@@ -25,7 +25,7 @@
           <el-table-column prop="text" min-width="80" label="申诉文字内容" align="center" />
           <el-table-column min-width="40" label="申诉图片" align="center">
             <template slot-scope="{row}">
-              <el-image :src="baseUrl+row.url" class="appeal-img" fit="contain"/>
+              <el-image :src="baseUrl+row.url" class="appeal-img" fit="contain" :preview-src-list="subPicList"/>
             </template>
           </el-table-column>
           <el-table-column prop="date" min-width="40" label="提交时间" align="center" />
@@ -46,14 +46,14 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
           />
-        </div>        
+        </div>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import { updateHelpList } from '@/api/appeal'
 export default {
   data () {
@@ -85,6 +85,9 @@ export default {
       'pageSize',
       'totle',
       'list'
+    ]),
+    ...mapGetters('appeal',[
+      'subPicList'
     ])
   },
   filters: {
@@ -167,10 +170,7 @@ export default {
     },
     toFormDetail(myid,tid,mid){
       this.$router.push({
-        path:'/task/detail',
-        query: {
-          id: tid
-        }
+        path:'/form-detail/'+mid+'/'+tid+'/'+myid
       })
     }
   }
