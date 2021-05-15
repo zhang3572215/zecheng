@@ -246,15 +246,16 @@ import request from '@/utils/request'
                 this.newData.thumb = res.data.src;
             },
             beforeAvatarUpload(file) {
-                const isJPG = file.type === 'image/jpeg';
+                // const isJPG = file.type === 'image/jpeg';
                 const isLt3M = file.size / 1024 / 1024 < 3;
-                if (!isJPG) {
-                    this.$message.error('上传头像图片只能是 JPG 格式!');
-                }
+                // if (!isJPG) {
+                //     this.$message.error('上传头像图片只能是 JPG 格式!');
+                // }
                 if (!isLt3M) {
                     this.$message.error('上传头像图片大小不能超过 3MB!');
                 }
-                return isJPG && isLt3M;
+                // return isJPG && isLt3M;
+                return isLt3M;
             },
             handleEditSuccess(res, file) {
                 this.editData.thumb = res.data.src;
